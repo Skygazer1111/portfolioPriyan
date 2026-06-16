@@ -5,16 +5,19 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   --color-bg: var(--bg);
   --color-surface: var(--surface);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
+  --color-surface-2: var(--surface-2);
   --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-dim: var(--accent-dim);
+  --color-accent-foreground: var(--accent-foreground);
   --color-foreground: var(--foreground);
-  --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
 
   --color-background: var(--bg);
@@ -24,29 +27,32 @@
   --color-popover-foreground: var(--foreground);
   --color-primary: var(--accent);
   --color-primary-foreground: var(--accent-foreground);
-  --color-secondary: var(--surface);
+  --color-secondary: var(--surface-2);
   --color-secondary-foreground: var(--foreground);
+  --color-muted: var(--surface-2);
   --color-input: var(--border);
   --color-ring: var(--accent);
   --color-destructive: oklch(0.6 0.22 25);
   --color-destructive-foreground: oklch(0.98 0 0);
 
-  --radius-sm: 0.375rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.25rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1rem;
 }
 
 :root {
-  --bg: #0a0a0a;
-  --surface: #141414;
-  --accent: #3b82f6;
-  --accent-foreground: #ffffff;
-  --border: #262626;
-  --foreground: #e7e5e4; /* stone-200 */
-  --muted: #1c1c1c;
-  --muted-foreground: #a8a29e; /* stone-400 */
+  --bg: #0b0b0d;
+  --surface: #16161a;
+  --surface-2: #1c1c21;
+  --border: #2a2a2e;
+  --border-strong: #3a3a40;
+  --accent: #ff7a1a;
+  --accent-dim: #b8550f;
+  --accent-foreground: #0b0b0d;
+  --foreground: #e6e6e6;
+  --muted-foreground: #8a8a92;
 }
 
 @layer base {
@@ -62,4 +68,66 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
+  /* subtle grid noise on the page background */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+    background-size: 56px 56px;
+    z-index: 0;
+  }
+}
+
+@utility corner-frame {
+  position: relative;
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-color: var(--color-accent);
+  }
+  &::before {
+    top: -1px;
+    left: -1px;
+    border-top: 1px solid;
+    border-left: 1px solid;
+  }
+  &::after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+  }
+}
+
+@utility scanlines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 3px,
+    rgba(255, 255, 255, 0.02) 3px,
+    rgba(255, 255, 255, 0.02) 4px
+  );
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@utility animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+@utility animate-blink {
+  animation: blink 1s steps(1) infinite;
 }
