@@ -3,17 +3,17 @@ import { createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "alex.chen // cs portfolio [v2.4-CRACKED]" },
+      { title: "priyan.r // cs portfolio [v2.4-CRACKED]" },
       {
         name: "description",
         content:
-          "Computer Science student. Backend, distributed systems, low-level performance work.",
+          "Priyan Rajarajan — CS student. Full-stack, backend, data, and systems work.",
       },
-      { property: "og:title", content: "alex.chen — CS portfolio" },
+      { property: "og:title", content: "priyan.r — CS portfolio" },
       {
         property: "og:description",
         content:
-          "Computer Science student. Backend, distributed systems, low-level performance work.",
+          "Priyan Rajarajan — CS student. Full-stack, backend, data, and systems work.",
       },
     ],
   }),
@@ -24,77 +24,94 @@ const navLinks = [
   { href: "#about", label: "01_about" },
   { href: "#projects", label: "02_projects" },
   { href: "#stack", label: "03_stack" },
-  { href: "#education", label: "04_edu" },
-  { href: "#certs", label: "05_certs" },
-  { href: "#contact", label: "06_contact" },
+  { href: "#experience", label: "04_experience" },
+  { href: "#education", label: "05_edu" },
+  { href: "#certs", label: "06_certs" },
+  { href: "#contact", label: "07_contact" },
 ];
 
 const stack = {
-  Languages: ["Rust", "C / C++", "Python", "Go", "TypeScript"],
-  Runtimes: ["Linux / eBPF", "Kubernetes", "Docker", "WASM"],
-  Data: ["PostgreSQL", "Redis", "ClickHouse", "Kafka"],
-  Cloud: ["AWS", "GCP", "Cloudflare", "Fly.io"],
+  Languages: ["Python", "C / C++", "Java", "JavaScript", "TypeScript", "SQL"],
+  Frameworks: ["React", "Next.js", "Flask", ".NET / WPF"],
+  "Backend & DB": ["Node.js", "MySQL", "PostgreSQL", "Prisma", "Drizzle ORM", "Redis"],
+  Libraries: ["Pandas", "NumPy", "Recharts", "Fabric.js"],
+  Tools: ["Git", "GitHub", "VS Code", "Vercel", "IntelliJ", "PowerShell", "Power BI"],
 };
 
 const projects = [
   {
     id: "001",
-    title: "Nexus Graph Engine",
+    title: "TidyWindow",
+    subtitle: "Windows Maintenance Platform",
     blurb:
-      "High-performance graph processor in C++ — billions of edges, sub-ms traversals via SIMD + CUDA kernels.",
-    tags: ["C++20", "CUDA", "SIMD"],
-    links: [
-      { label: "src", href: "#" },
-      { label: "demo", href: "#" },
-    ],
+      "Windows system maintenance tool built with WPF (.NET 8) and C# services — cleanup, diagnostics, optimization. PowerShell 7 automation with secure execution, logging, rollback. Software management, registry tuning, system monitoring.",
+    tags: [".NET 8", "C#", "WPF", "PowerShell"],
+    links: [{ label: "src", href: "https://github.com/Skygazer1111/TidyWindow" }],
     status: "stable",
   },
   {
     id: "002",
-    title: "Aura Cloud Platform",
+    title: "Compus",
+    subtitle: "Faculty–HOD Appointment Scheduling",
     blurb:
-      "Self-hosted PaaS for student teams. git-push deploys, container orchestration, zero-config TLS.",
-    tags: ["Go", "Docker", "gRPC"],
-    links: [{ label: "src", href: "#" }],
+      "Full-stack scheduling platform for SRMIST with role-based workflows for Faculty, HODs, Admins. Priority-driven scheduling engine with conflict resolution + concurrency-safe slot allocation via PostgreSQL row locking and Redis. Google Calendar, push notifications, NextAuth + WebAuthn.",
+    tags: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "Redis"],
+    links: [{ label: "src", href: "https://github.com/HARIHARAN-38/Compus" }],
     status: "beta",
   },
   {
     id: "003",
-    title: "kx — kernel tracer",
+    title: "Brochify",
+    subtitle: "AI-Powered Brochure & Certificate Builder",
     blurb:
-      "eBPF-based syscall tracer with a flamegraph TUI. Built to debug a misbehaving DB driver.",
-    tags: ["Rust", "eBPF", "TUI"],
-    links: [
-      { label: "src", href: "#" },
-      { label: "writeup", href: "#" },
-    ],
-    status: "wip",
+      "Full-stack brochure / certificate design platform with role-based approval workflows. Drag-and-drop editor with templates, asset management, and PDF export via Fabric.js + Puppeteer. AI content and image generation through OpenRouter, Replicate, Cloudinary, Unsplash.",
+    tags: ["Next.js", "TypeScript", "Prisma", "MySQL", "Fabric.js"],
+    links: [{ label: "src", href: "https://github.com/Arjjun-S/Brochify" }],
+    status: "stable",
+  },
+];
+
+const experience = [
+  {
+    role: "Data Science Intern (Power BI)",
+    org: "Infoplus MDM Pvt. Ltd.",
+    range: "Jun 2026 → Present",
+    detail:
+      "Working with large datasets for analysis, visualization, and insight generation in Microsoft Power BI. Building interactive dashboards and reports, applying Power Query + DAX transformations, supporting data-driven decisions with industry teams.",
+    active: true,
+  },
+  {
+    role: "Project Intern",
+    org: "ISD Lab, SRM Institute of Science and Technology",
+    range: "—",
+    detail: "// add details here",
+    active: false,
   },
 ];
 
 const education = [
   {
-    school: "B.S. Computer Science",
-    org: "University of Technology",
-    range: "2021 → 2025",
-    detail:
-      "OS, compilers, distributed systems, advanced algorithms. GPA 3.9 / 4.0.",
+    school: "B.Tech Computer Science",
+    org: "SRM Institute of Science and Technology",
+    range: "— → —",
+    detail: "// add coursework, GPA, focus areas here",
     active: true,
-  },
-  {
-    school: "Systems Engineering Intern",
-    org: "CloudScale Infrastructure",
-    range: "Summer 2023",
-    detail: "Built an internal metrics pipeline. Cut p99 ingest latency by 38%.",
-    active: false,
   },
 ];
 
 const certifications = [
-  { code: "AWS-DEV-A", title: "AWS Certified Developer — Associate", year: "2023" },
-  { code: "GCP-PCE", title: "Google Cloud Professional Engineer", year: "2023" },
-  { code: "CKAD", title: "Certified Kubernetes Application Developer", year: "2024" },
-  { code: "META-FE", title: "Meta Front-End Developer", year: "2022" },
+  { code: "NPTEL-JAVA", title: "Programming in Java — NPTEL", year: "—" },
+  { code: "NPTEL-OS", title: "Operating System Fundamentals — NPTEL", year: "—" },
+  { code: "NPTEL-OOP", title: "Fundamentals of Object-Oriented Programming — NPTEL", year: "—" },
+  { code: "NPTEL-DBMS", title: "Database Management Systems — NPTEL", year: "—" },
+];
+
+const activities = [
+  "Web Developer — IEEE Computer Society SRMIST",
+  "Project Intern — ISD Lab, SRMIST",
+  "Member — Institution of Engineers India (IEI)",
+  "National Hackathon Winner — ULTRON 9.0",
+  "UROP Research — Statistical ML for Air Quality Prediction (ongoing)",
 ];
 
 function Tile({
@@ -157,7 +174,7 @@ function Portfolio() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
           <div className="flex items-center gap-2 font-mono text-xs">
             <span className="size-1.5 rounded-full bg-accent animate-blink" />
-            <span className="text-foreground">alex.chen</span>
+            <span className="text-foreground">priyan.r</span>
             <span className="text-muted-foreground hidden sm:inline">
               / portfolio.v2.4
             </span>
@@ -184,13 +201,13 @@ function Portfolio() {
         <div className="flex whitespace-nowrap animate-marquee py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
           {Array.from({ length: 2 }).map((_, i) => (
             <div key={i} className="flex shrink-0 gap-8 px-4">
-              <span>+++ available for summer 2025 internships +++</span>
+              <span>+++ open to swe / backend roles +++</span>
               <span className="text-accent">★</span>
-              <span>+++ shipping in rust, go, c++ +++</span>
+              <span>+++ shipping in ts, python, c# +++</span>
               <span className="text-accent">★</span>
-              <span>+++ 04:21 PT • uptime 22y +++</span>
+              <span>+++ based in chennai, in +++</span>
               <span className="text-accent">★</span>
-              <span>+++ open to dm — keybase / signal +++</span>
+              <span>+++ dm: priyan123xyz@gmail.com +++</span>
               <span className="text-accent">★</span>
             </div>
           ))}
@@ -210,15 +227,15 @@ function Portfolio() {
               className="font-display font-medium tracking-tight text-4xl sm:text-6xl lg:text-7xl leading-[0.95]"
               style={{ fontFamily: "var(--font-display)" }}
             >
-              Building things <br />
-              that shouldn't <br />
-              <span className="text-accent">scale</span>
-              <span className="text-accent">.</span> Then making <br />
-              them scale anyway.
+              Code, ship, <br />
+              break, repeat <span className="text-accent">—</span> <br />
+              the loop never <br />
+              <span className="text-accent">exits.</span>
             </h1>
             <p className="mt-8 max-w-xl text-muted-foreground leading-relaxed">
-              Alex Chen — CS student. I write low-level systems, ship tools other
-              devs actually use, and reverse-engineer things that don't have docs.
+              Priyan Rajarajan — CS undergrad at SRMIST. I build full-stack tools,
+              backend systems, and the occasional Windows utility. Comfortable on
+              either side of the API.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
@@ -231,7 +248,7 @@ function Portfolio() {
                 href="#contact"
                 className="font-mono text-xs uppercase tracking-[0.2em] border border-border-strong text-foreground px-4 py-3 hover:border-accent hover:text-accent transition-colors"
               >
-                ./hire_me --full-time
+                ./hire_me
               </a>
             </div>
           </Tile>
@@ -244,10 +261,10 @@ function Portfolio() {
             </div>
             <div className="mt-4 font-display text-2xl font-medium leading-tight">
               Open for <br />
-              summer '25
+              SWE roles
             </div>
             <div className="mt-4 font-mono text-[11px] text-muted-foreground">
-              SF • remote ok • visa: none
+              chennai · remote ok
             </div>
           </Tile>
 
@@ -257,7 +274,7 @@ function Portfolio() {
               commits / 365d
             </div>
             <div className="mt-1 font-display text-4xl font-semibold tracking-tight">
-              1,284
+              ###
             </div>
             <div className="mt-4 grid grid-cols-12 gap-[3px]">
               {Array.from({ length: 60 }).map((_, i) => {
@@ -274,19 +291,19 @@ function Portfolio() {
             </div>
           </Tile>
 
-          {/* uptime / location */}
+          {/* location */}
           <Tile className="col-span-3 lg:col-span-2 p-5" label="loc">
-            <div className="font-display text-2xl">San Francisco</div>
+            <div className="font-display text-2xl">Chennai, IN</div>
             <div className="mt-1 font-mono text-[11px] text-muted-foreground">
-              37.7749° N, 122.4194° W
+              13.0827° N, 80.2707° E
             </div>
             <div className="mt-5 flex items-center justify-between font-mono text-[11px]">
-              <span className="text-muted-foreground">local</span>
-              <span className="text-foreground">04:21 PT</span>
+              <span className="text-muted-foreground">tz</span>
+              <span className="text-foreground">IST · UTC+5:30</span>
             </div>
           </Tile>
 
-          {/* now playing / currently */}
+          {/* currently */}
           <Tile className="col-span-3 lg:col-span-2 p-5" label="now">
             <div className="font-mono text-[11px] text-muted-foreground mb-2">
               currently
@@ -294,15 +311,15 @@ function Portfolio() {
             <ul className="space-y-2 text-sm">
               <li className="flex items-baseline gap-2">
                 <span className="text-accent font-mono text-xs">▸</span>
-                reading <span className="text-muted-foreground">— Designing Data-Intensive Apps</span>
+                interning <span className="text-muted-foreground">— Infoplus MDM (Power BI)</span>
               </li>
               <li className="flex items-baseline gap-2">
                 <span className="text-accent font-mono text-xs">▸</span>
-                hacking on <span className="text-muted-foreground">— a tiny Raft impl</span>
+                researching <span className="text-muted-foreground">— ML for air quality (UROP)</span>
               </li>
               <li className="flex items-baseline gap-2">
                 <span className="text-accent font-mono text-xs">▸</span>
-                listening to <span className="text-muted-foreground">— Aphex Twin</span>
+                building <span className="text-muted-foreground">— side projects, always</span>
               </li>
             </ul>
           </Tile>
@@ -314,23 +331,23 @@ function Portfolio() {
         <section id="about" className="grid grid-cols-6 gap-3 sm:gap-4 scroll-mt-24">
           <Tile className="col-span-6 lg:col-span-4 p-8" label="readme.md">
             <h2 className="font-display text-3xl sm:text-4xl font-medium tracking-tight">
-              I like the parts of computers <span className="text-accent">most people skip</span>.
+              I build across the stack — and I <span className="text-accent">like the messy parts</span>.
             </h2>
             <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                Currently doing a B.S. in Computer Science. Most of my time goes
-                into systems work — kernels, allocators, query planners, the
-                stuff that breaks in production at 3am.
+                CS undergrad at SRMIST. I spend most of my time shipping
+                full-stack apps in Next.js + TypeScript, designing schemas in
+                Postgres / MySQL, and occasionally writing C# / WPF for Windows
+                tooling.
               </p>
               <p>
-                I care about correctness, then performance, then ergonomics, in
-                that order. I write a lot of Rust because it forces me to be
-                honest with myself.
+                Lately I've been into scheduling engines, concurrency-safe data
+                workflows, and figuring out where AI actually pulls weight in a
+                product (and where it just makes things slower).
               </p>
               <p>
-                Outside of school I maintain a couple of small OSS tools and
-                occasionally publish writeups on things I had to figure out the
-                hard way.
+                Off the keyboard: hackathons, research on ML for air quality,
+                and helping run IEEE CS at SRMIST.
               </p>
             </div>
           </Tile>
@@ -347,8 +364,8 @@ function Portfolio() {
               </div>
             </div>
             <div className="mt-4 font-mono text-[11px] text-muted-foreground space-y-1">
-              <div className="flex justify-between"><span>name</span><span className="text-foreground">alex chen</span></div>
-              <div className="flex justify-between"><span>pronouns</span><span className="text-foreground">they/them</span></div>
+              <div className="flex justify-between"><span>name</span><span className="text-foreground">priyan r.</span></div>
+              <div className="flex justify-between"><span>based</span><span className="text-foreground">chennai, in</span></div>
               <div className="flex justify-between"><span>role</span><span className="text-foreground">cs student</span></div>
             </div>
           </Tile>
@@ -392,14 +409,21 @@ function Portfolio() {
                   </span>
                 </div>
                 <div className="flex items-start justify-between gap-4">
-                  <h3 className="font-display text-xl sm:text-2xl font-medium tracking-tight">
-                    {p.title}
-                  </h3>
+                  <div className="min-w-0">
+                    <h3 className="font-display text-xl sm:text-2xl font-medium tracking-tight">
+                      {p.title}
+                    </h3>
+                    <div className="font-mono text-[11px] text-muted-foreground mt-0.5">
+                      {p.subtitle}
+                    </div>
+                  </div>
                   <div className="flex gap-3 font-mono text-[11px] shrink-0 mt-1">
                     {p.links.map((l) => (
                       <a
                         key={l.label}
                         href={l.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="text-accent hover:underline underline-offset-4"
                       >
                         ./{l.label} ↗
@@ -432,7 +456,7 @@ function Portfolio() {
           {Object.entries(stack).map(([group, items]) => (
             <Tile
               key={group}
-              className="col-span-6 sm:col-span-3 lg:col-span-3 xl:col-span-3 p-5"
+              className="col-span-6 sm:col-span-3 lg:col-span-2 p-5"
               label={group.toLowerCase()}
             >
               <ul className="font-mono text-sm space-y-1.5">
@@ -447,7 +471,41 @@ function Portfolio() {
           ))}
         </section>
 
-        <Divider label="04_education" />
+        <Divider label="04_experience" />
+
+        {/* EXPERIENCE */}
+        <section id="experience" className="grid grid-cols-6 gap-3 sm:gap-4 scroll-mt-24">
+          {experience.map((e) => (
+            <Tile key={e.role + e.org} className="col-span-6 lg:col-span-3 p-6">
+              <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.2em]">
+                <span className={e.active ? "text-accent" : "text-muted-foreground"}>
+                  {e.active ? "● active" : "○ past"}
+                </span>
+                <span className="text-muted-foreground">{e.range}</span>
+              </div>
+              <h3 className="mt-3 font-display text-xl font-medium tracking-tight">
+                {e.role}
+              </h3>
+              <p className="text-sm text-muted-foreground">{e.org}</p>
+              <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
+                {e.detail}
+              </p>
+            </Tile>
+          ))}
+
+          <Tile className="col-span-6 p-6" label="leadership & activities">
+            <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2 font-mono text-sm">
+              {activities.map((a) => (
+                <li key={a} className="flex items-baseline gap-2">
+                  <span className="text-accent text-xs">▸</span>
+                  <span className="text-muted-foreground">{a}</span>
+                </li>
+              ))}
+            </ul>
+          </Tile>
+        </section>
+
+        <Divider label="05_education" />
 
         {/* EDUCATION */}
         <section
@@ -475,7 +533,7 @@ function Portfolio() {
           ))}
         </section>
 
-        <Divider label="05_certs" />
+        <Divider label="06_certs" />
 
         {/* CERTS */}
         <section id="certs" className="grid grid-cols-6 gap-3 sm:gap-4 scroll-mt-24">
@@ -497,7 +555,7 @@ function Portfolio() {
           ))}
         </section>
 
-        <Divider label="06_contact" />
+        <Divider label="07_contact" />
 
         {/* CONTACT */}
         <section id="contact" className="grid grid-cols-6 gap-3 sm:gap-4 scroll-mt-24">
@@ -506,14 +564,14 @@ function Portfolio() {
               ~/contact &gt; init.sh
             </div>
             <h2 className="font-display text-3xl sm:text-5xl font-medium tracking-tight leading-tight">
-              If you're shipping <span className="text-accent">hard problems</span>,<br />
-              I want to hear about it.
+              Got a role, a project, or a <span className="text-accent">weird idea</span>?<br />
+              The inbox is open.
             </h2>
             <a
-              href="mailto:hello@alexchen.dev"
+              href="mailto:priyan123xyz@gmail.com"
               className="mt-8 inline-flex items-center gap-3 font-mono text-base sm:text-lg text-accent border-b border-accent/60 hover:border-accent transition-colors pb-1"
             >
-              hello@alexchen.dev
+              priyan123xyz@gmail.com
               <span className="text-xs">↗</span>
             </a>
           </Tile>
@@ -521,15 +579,15 @@ function Portfolio() {
           <Tile className="col-span-6 lg:col-span-2 p-5" label="links">
             <ul className="font-mono text-sm space-y-3">
               {[
-                ["github", "@alexchen"],
-                ["linkedin", "/alex-chen-cs"],
-                ["x / twitter", "@alxchn"],
-                ["read.cv", "/alexchen"],
-                ["resume", "alexchen.pdf"],
-              ].map(([k, v]) => (
+                ["github", "@Skygazer1111", "https://github.com/Skygazer1111"],
+                ["linkedin", "/priyan-rajarajan", "https://linkedin.com/in/priyan-rajarajan-b8128b2a2"],
+                ["phone", "+91 63802 43702", "tel:+916380243702"],
+                ["email", "priyan123xyz@gmail.com", "mailto:priyan123xyz@gmail.com"],
+                ["resume", "// add link", "#"],
+              ].map(([k, v, href]) => (
                 <li key={k} className="flex items-baseline justify-between gap-2 border-b border-border pb-2 last:border-0">
                   <span className="text-muted-foreground">{k}</span>
-                  <a href="#" className="text-foreground hover:text-accent transition-colors">
+                  <a href={href} target="_blank" rel="noopener noreferrer" className="text-foreground hover:text-accent transition-colors truncate">
                     {v} ↗
                   </a>
                 </li>
@@ -541,9 +599,9 @@ function Portfolio() {
 
       <footer className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-10 mt-8 border-t border-border">
         <div className="flex flex-col sm:flex-row justify-between items-start gap-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-          <p>© 2025 alex.chen — assembled by hand</p>
+          <p>© 2026 priyan rajarajan — assembled by hand</p>
           <p>
-            build <span className="text-accent">v2.4.1-cracked</span> · deployed 2026-06-16
+            build <span className="text-accent">v2.4.1-cracked</span> · chennai · ist
           </p>
         </div>
       </footer>
