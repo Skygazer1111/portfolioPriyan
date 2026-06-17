@@ -61,12 +61,14 @@ const projects = [
   },
   {
     id: "003",
-    title: "Brochify",
-    subtitle: "AI-Powered Brochure & Certificate Builder",
+    title: "UniSlot",
+    subtitle: "University Evening Course Scheduling Engine",
     blurb:
-      "Full-stack brochure / certificate design platform with role-based approval workflows. Drag-and-drop editor with templates, asset management, and PDF export via Fabric.js + Puppeteer. AI content and image generation through OpenRouter, Replicate, Cloudinary, Unsplash.",
-    tags: ["Next.js", "TypeScript", "Prisma", "MySQL", "Fabric.js"],
-    links: [{ label: "src", href: "https://github.com/Arjjun-S/Brochify" }],
+      "NP-Hard timetabling solver for 2,600 students and 306+ courses across 55 evening slots. Models the problem as a weighted conflict graph with ILP constraints, then optimizes via metaheuristics (SA, Tabu Search, GA) and Timefold's incremental scoring. Resolves the student sectioning paradox through edge-minimizing pre-clustering before master timetable generation. Built on insights from ITC 2019 winning architectures.",
+    tags: ["Python", "Timefold", "OR-Tools", "ILP", "Graph Theory", "Next.js"],
+    links: [
+      { label: "live", href: "https://uni-slot-three.vercel.app" },
+    ],
     status: "stable",
   },
 ];
