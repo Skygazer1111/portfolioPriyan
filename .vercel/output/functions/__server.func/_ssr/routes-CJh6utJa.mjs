@@ -1,6 +1,9 @@
-import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-DfKQu3Rr.js
+import { r as __toESM } from "../_runtime.mjs";
+import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-CJh6utJa.js
+var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
+var priyan_default = "/assets/priyan-C9AquHz7.png";
 var navLinks = [
 	{
 		href: "#about",
@@ -188,23 +191,59 @@ function Tile({ children, className = "", label, framed = false }) {
 	});
 }
 function PreviewPanel({ id, name, liveUrl }) {
-	if (liveUrl) return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-		className: "relative h-48 sm:h-56 bg-bg border-b border-border overflow-hidden",
-		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("iframe", {
-			src: liveUrl,
-			title: `${name} live preview`,
-			loading: "lazy",
-			className: "h-full w-full border-0 bg-bg",
-			sandbox: "allow-scripts allow-same-origin allow-forms allow-popups",
-			referrerPolicy: "no-referrer-when-downgrade"
-		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-			href: liveUrl,
-			target: "_blank",
-			rel: "noopener noreferrer",
-			className: "absolute right-2 top-2 font-mono text-[10px] uppercase tracking-[0.2em] bg-bg/90 border border-border px-2 py-1 text-accent hover:bg-bg transition-colors",
-			children: "open live ↗"
-		})]
-	});
+	if (liveUrl) {
+		const [isLoaded, setIsLoaded] = (0, import_react.useState)(false);
+		const [isBlocked, setIsBlocked] = (0, import_react.useState)(false);
+		(0, import_react.useEffect)(() => {
+			setIsLoaded(false);
+			setIsBlocked(false);
+			const timer = window.setTimeout(() => {
+				setIsBlocked(true);
+			}, 4500);
+			return () => {
+				window.clearTimeout(timer);
+			};
+		}, [liveUrl]);
+		return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+			className: "relative h-48 sm:h-56 bg-bg border-b border-border overflow-hidden",
+			children: [
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("iframe", {
+					src: liveUrl,
+					title: `${name} live preview`,
+					loading: "lazy",
+					className: "h-full w-full border-0 bg-bg",
+					sandbox: "allow-scripts allow-same-origin allow-forms allow-popups",
+					referrerPolicy: "no-referrer-when-downgrade",
+					onLoad: () => setIsLoaded(true),
+					onError: () => setIsBlocked(true)
+				}),
+				!isLoaded && !isBlocked && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "absolute inset-0 grid place-items-center bg-bg/90",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground",
+						children: "loading live preview..."
+					})
+				}),
+				isBlocked && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					className: "absolute inset-0 grid place-items-center bg-bg/95 scanlines p-4 text-center",
+					children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground",
+						children: "live preview unavailable"
+					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+						className: "mt-2 font-mono text-[11px] text-stone-600",
+						children: "target site blocks iframe embedding"
+					})] })
+				}),
+				/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+					href: liveUrl,
+					target: "_blank",
+					rel: "noopener noreferrer",
+					className: "absolute right-2 top-2 font-mono text-[10px] uppercase tracking-[0.2em] bg-bg/90 border border-border px-2 py-1 text-accent hover:bg-bg transition-colors",
+					children: "open live ↗"
+				})
+			]
+		});
+	}
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "relative h-48 sm:h-56 bg-bg border-b border-border overflow-hidden scanlines",
 		children: [
@@ -529,18 +568,10 @@ function Portfolio() {
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Tile, {
 							className: "col-span-6 lg:col-span-2 p-5",
 							label: "./me.jpg",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-								className: "aspect-square w-full bg-bg border border-border rounded-md grid place-items-center scanlines",
-								children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-									className: "text-center",
-									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-										className: "font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground",
-										children: "portrait"
-									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-										className: "font-mono text-[10px] text-stone-600 mt-1",
-										children: "// placeholder"
-									})]
-								})
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", {
+								src: priyan_default,
+								alt: "Priyan portrait",
+								className: "aspect-square w-full object-cover border border-border rounded-md"
 							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "mt-4 font-mono text-[11px] text-muted-foreground space-y-1",
 								children: [
