@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import portraitImage from "../../priyan.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -427,16 +428,11 @@ function Portfolio() {
           </Tile>
 
           <Tile className="col-span-6 lg:col-span-2 p-5" label="./me.jpg">
-            <div className="aspect-square w-full bg-bg border border-border rounded-md grid place-items-center scanlines">
-              <div className="text-center">
-                <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-                  portrait
-                </div>
-                <div className="font-mono text-[10px] text-stone-600 mt-1">
-                  // placeholder
-                </div>
-              </div>
-            </div>
+            <img
+              src={portraitImage}
+              alt="Priyan portrait"
+              className="aspect-square w-full object-cover border border-border rounded-md"
+            />
             <div className="mt-4 font-mono text-[11px] text-muted-foreground space-y-1">
               <div className="flex justify-between"><span>name</span><span className="text-foreground">priyan r.</span></div>
               <div className="flex justify-between"><span>based</span><span className="text-foreground">chennai, in</span></div>
@@ -585,7 +581,7 @@ function Portfolio() {
 
         <Divider label="05_education" />
 
-        {/* EDUCATION */}
+         {/* EDUCATION */}
         <section
           id="education"
           className="grid grid-cols-6 gap-3 sm:gap-4 scroll-mt-24"
