@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -56,7 +57,10 @@ const projects = [
     blurb:
       "Full-stack scheduling platform for SRMIST with role-based workflows for Faculty, HODs, Admins. Priority-driven scheduling engine with conflict resolution + concurrency-safe slot allocation via PostgreSQL row locking and Redis. Google Calendar, push notifications, NextAuth + WebAuthn.",
     tags: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "Redis"],
-    links: [{ label: "src", href: "https://github.com/HARIHARAN-38/Compus" }],
+    links: [
+      { label: "live", href: "https://compusweb.app/" },
+      { label: "src", href: "https://github.com/HARIHARAN-38/Compus" },
+    ],
     status: "beta",
   },
   {
@@ -143,7 +147,75 @@ function Tile({
   );
 }
 
-function PreviewPlaceholder({ id, name }: { id: string; name: string }) {
+function PreviewPanel({
+  id,
+  name,
+  liveUrl,
+}: {
+  id: string;
+  name: string;
+  liveUrl?: string;
+}) {
+  if (liveUrl) {
+    const [isLoaded, setIsLoaded] = useState(false);
+    const [isBlocked, setIsBlocked] = useState(false);
+
+    useEffect(() => {
+      setIsLoaded(false);
+      setIsBlocked(false);
+
+      const timer = window.setTimeout(() => {
+        setIsBlocked(true);
+      }, 4500);
+
+      return () => {
+        window.clearTimeout(timer);
+      };
+    }, [liveUrl]);
+
+    return (
+      <div className="relative h-48 sm:h-56 bg-bg border-b border-border overflow-hidden">
+        <iframe
+          src={liveUrl}
+          title={`${name} live preview`}
+          loading="lazy"
+          className="h-full w-full border-0 bg-bg"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+          referrerPolicy="no-referrer-when-downgrade"
+          onLoad={() => setIsLoaded(true)}
+          onError={() => setIsBlocked(true)}
+        />
+        {!isLoaded && !isBlocked && (
+          <div className="absolute inset-0 grid place-items-center bg-bg/90">
+            <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+              loading live preview...
+            </div>
+          </div>
+        )}
+        {isBlocked && (
+          <div className="absolute inset-0 grid place-items-center bg-bg/95 scanlines p-4 text-center">
+            <div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                live preview unavailable
+              </div>
+              <div className="mt-2 font-mono text-[11px] text-stone-600">
+                target site blocks iframe embedding
+              </div>
+            </div>
+          </div>
+        )}
+        <a
+          href={liveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute right-2 top-2 font-mono text-[10px] uppercase tracking-[0.2em] bg-bg/90 border border-border px-2 py-1 text-accent hover:bg-bg transition-colors"
+        >
+          open live ↗
+        </a>
+      </div>
+    );
+  }
+
   return (
     <div className="relative h-48 sm:h-56 bg-bg border-b border-border overflow-hidden scanlines">
       <div className="absolute inset-0 grid place-items-center">
@@ -393,7 +465,11 @@ function Portfolio() {
                 i === 0 ? "lg:col-span-4" : "lg:col-span-3"
               } overflow-hidden group`}
             >
-              <PreviewPlaceholder id={p.id} name={p.title} />
+              <PreviewPanel
+                id={p.id}
+                name={p.title}
+                liveUrl={p.links.find((l) => l.label === "live")?.href}
+              />
               <div className="p-6">
                 <div className="flex items-center justify-between mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
                   <span>release_{p.id}</span>
@@ -585,7 +661,7 @@ function Portfolio() {
                 ["linkedin", "/priyan-rajarajan", "https://linkedin.com/in/priyan-rajarajan-b8128b2a2"],
                 ["phone", "+91 63802 43702", "tel:+916380243702"],
                 ["email", "priyan123xyz@gmail.com", "mailto:priyan123xyz@gmail.com"],
-                ["resume", "// add link", "#"],
+                ["resume", "view resume", "https://drive.google.com/file/d/1RrPsUcDj7xGSpxlYU0G4W8mkvIVJRZql/view?usp=sharing"],
               ].map(([k, v, href]) => (
                 <li key={k} className="flex items-baseline justify-between gap-2 border-b border-border pb-2 last:border-0">
                   <span className="text-muted-foreground">{k}</span>

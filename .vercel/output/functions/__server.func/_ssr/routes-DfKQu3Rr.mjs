@@ -1,5 +1,5 @@
 import { n as require_jsx_runtime } from "../_libs/react+tanstack__react-query.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-D5DqM7H7.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-DfKQu3Rr.js
 var import_jsx_runtime = require_jsx_runtime();
 var navLinks = [
 	{
@@ -101,6 +101,9 @@ var projects = [
 			"Redis"
 		],
 		links: [{
+			label: "live",
+			href: "https://compusweb.app/"
+		}, {
 			label: "src",
 			href: "https://github.com/HARIHARAN-38/Compus"
 		}],
@@ -184,7 +187,24 @@ function Tile({ children, className = "", label, framed = false }) {
 		}), children]
 	});
 }
-function PreviewPlaceholder({ id, name }) {
+function PreviewPanel({ id, name, liveUrl }) {
+	if (liveUrl) return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+		className: "relative h-48 sm:h-56 bg-bg border-b border-border overflow-hidden",
+		children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("iframe", {
+			src: liveUrl,
+			title: `${name} live preview`,
+			loading: "lazy",
+			className: "h-full w-full border-0 bg-bg",
+			sandbox: "allow-scripts allow-same-origin allow-forms allow-popups",
+			referrerPolicy: "no-referrer-when-downgrade"
+		}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
+			href: liveUrl,
+			target: "_blank",
+			rel: "noopener noreferrer",
+			className: "absolute right-2 top-2 font-mono text-[10px] uppercase tracking-[0.2em] bg-bg/90 border border-border px-2 py-1 text-accent hover:bg-bg transition-colors",
+			children: "open live ↗"
+		})]
+	});
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 		className: "relative h-48 sm:h-56 bg-bg border-b border-border overflow-hidden scanlines",
 		children: [
@@ -564,9 +584,10 @@ function Portfolio() {
 							})]
 						}), projects.map((p, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Tile, {
 							className: `col-span-6 ${i === 0 ? "lg:col-span-4" : "lg:col-span-3"} overflow-hidden group`,
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(PreviewPlaceholder, {
+							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(PreviewPanel, {
 								id: p.id,
-								name: p.title
+								name: p.title,
+								liveUrl: p.links.find((l) => l.label === "live")?.href
 							}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 								className: "p-6",
 								children: [
@@ -804,8 +825,8 @@ function Portfolio() {
 									],
 									[
 										"resume",
-										"// add link",
-										"#"
+										"view resume",
+										"https://drive.google.com/file/d/1RrPsUcDj7xGSpxlYU0G4W8mkvIVJRZql/view?usp=sharing"
 									]
 								].map(([k, v, href]) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", {
 									className: "flex items-baseline justify-between gap-2 border-b border-border pb-2 last:border-0",
