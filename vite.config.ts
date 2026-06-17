@@ -7,6 +7,9 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  // Required for self-hosted deploys (Vercel, Netlify, etc.). Without this, Lovable's
+  // config skips Nitro outside its sandbox and the build has no server entry to serve.
+  nitro: { preset: "vercel" },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
