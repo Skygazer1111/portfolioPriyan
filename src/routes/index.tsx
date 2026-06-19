@@ -191,58 +191,48 @@ function GitLogTile() {
 }
 
 function LivePreview({ name, liveUrl }: { name: string; liveUrl: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [shouldLoad, setShouldLoad] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isBlocked, setIsBlocked] = useState(false);
-  const hasLoadedRef = useRef(false);
+
+  useEffect(() => {
+    const node = containerRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) setShouldLoad(true);
+      },
+      { rootMargin: "300px 0px" },
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     setIsLoaded(false);
-    setIsBlocked(false);
-    hasLoadedRef.current = false;
-
-    const timer = window.setTimeout(() => {
-      if (!hasLoadedRef.current) setIsBlocked(true);
-    }, 8000);
-
-    return () => {
-      window.clearTimeout(timer);
-    };
-  }, [liveUrl]);
-
-  const handleLoad = () => {
-    hasLoadedRef.current = true;
-    setIsLoaded(true);
-    setIsBlocked(false);
-  };
+  }, [liveUrl, shouldLoad]);
 
   return (
-    <div className="relative h-48 sm:h-56 bg-bg border-b border-border overflow-hidden">
-      <iframe
-        src={liveUrl}
-        title={`${name} live preview`}
-        loading="lazy"
-        className="h-full w-full border-0 bg-bg"
-        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-        referrerPolicy="no-referrer-when-downgrade"
-        onLoad={handleLoad}
-        onError={() => setIsBlocked(true)}
-      />
-      {!isLoaded && !isBlocked && (
+    <div
+      ref={containerRef}
+      className="relative h-48 sm:h-56 bg-bg border-b border-border overflow-hidden"
+    >
+      {shouldLoad && (
+        <iframe
+          key={liveUrl}
+          src={liveUrl}
+          title={`${name} live preview`}
+          className="h-full w-full border-0 bg-bg"
+          referrerPolicy="no-referrer-when-downgrade"
+          onLoad={() => setIsLoaded(true)}
+        />
+      )}
+      {!isLoaded && (
         <div className="absolute inset-0 grid place-items-center bg-bg/90">
           <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
             loading live preview...
-          </div>
-        </div>
-      )}
-      {isBlocked && !isLoaded && (
-        <div className="absolute inset-0 grid place-items-center bg-bg/95 scanlines p-4 text-center">
-          <div>
-            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-              live preview unavailable
-            </div>
-            <div className="mt-2 font-mono text-[11px] text-stone-600">
-              target site blocks iframe embedding
-            </div>
           </div>
         </div>
       )}
@@ -250,7 +240,7 @@ function LivePreview({ name, liveUrl }: { name: string; liveUrl: string }) {
         href={liveUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="absolute right-2 top-2 font-mono text-[10px] uppercase tracking-[0.2em] bg-bg/90 border border-border px-2 py-1 text-accent hover:bg-bg transition-colors"
+        className="absolute right-2 top-2 z-10 font-mono text-[10px] uppercase tracking-[0.2em] bg-bg/90 border border-border px-2 py-1 text-accent hover:bg-bg transition-colors"
       >
         open live ↗
       </a>
