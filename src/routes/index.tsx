@@ -757,6 +757,15 @@ function Portfolio() {
           id="education"
           className="grid grid-cols-6 gap-3 sm:gap-4 scroll-mt-24"
         >
+          <div className="col-span-6 flex items-end justify-between">
+            <h2 className="font-display text-2xl sm:text-3xl font-medium tracking-tight">
+              Education
+            </h2>
+            <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+              {education.length} entries
+            </span>
+          </div>
+
           {education.map((e) => (
             <Tile key={e.org + e.school} className="col-span-6 lg:col-span-3 p-6">
               <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.2em]">
