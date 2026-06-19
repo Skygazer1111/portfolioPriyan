@@ -656,7 +656,6 @@ function Portfolio() {
                 ["github", "@Skygazer1111", "https://github.com/Skygazer1111"],
                 ["linkedin", "/priyan-rajarajan", "https://linkedin.com/in/priyan-rajarajan-b8128b2a2"],
                 ["phone", "+91 63802 43702", "tel:+916380243702"],
-                ["email", "priyan123xyz@gmail.com", "mailto:priyan123xyz@gmail.com"],
                 ["resume", "view resume", "https://drive.google.com/file/d/1RrPsUcDj7xGSpxlYU0G4W8mkvIVJRZql/view?usp=sharing"],
               ].map(([k, v, href]) => (
                 <li key={k} className="flex items-baseline justify-between gap-2 border-b border-border pb-2 last:border-0">
