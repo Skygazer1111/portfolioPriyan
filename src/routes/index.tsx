@@ -1,6 +1,8 @@
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import portraitImage from "../../priyan.png";
+import { getGitHubContributions } from "../lib/api/github.functions";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -145,6 +147,46 @@ function Tile({
       )}
       {children}
     </div>
+  );
+}
+
+const contributionColors = [
+  "bg-surface-2",
+  "bg-accent/20",
+  "bg-accent/40",
+  "bg-accent/70",
+  "bg-accent",
+];
+
+function GitLogTile() {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["github-contributions"],
+    queryFn: () => getGitHubContributions(),
+    staleTime: 1000 * 60 * 60,
+  });
+
+  const recent =
+    data?.recent ??
+    Array.from({ length: 60 }, () => ({ date: "", count: 0, level: 0 }));
+
+  return (
+    <Tile className="col-span-3 lg:col-span-2 p-5" label="git_log">
+      <div className="font-mono text-[11px] text-muted-foreground">
+        commits / 365d
+      </div>
+      <div className="mt-1 font-display text-4xl font-semibold tracking-tight">
+        {isLoading ? "···" : isError || !data ? "###" : data.total}
+      </div>
+      <div className="mt-4 grid grid-cols-12 gap-[3px]">
+        {recent.map((day, i) => (
+          <div
+            key={day.date || i}
+            title={day.date ? `${day.date}: ${day.count} commits` : undefined}
+            className={`h-2 ${contributionColors[day.level] ?? contributionColors[0]} rounded-[1px]`}
+          />
+        ))}
+      </div>
+    </Tile>
   );
 }
 
@@ -343,28 +385,7 @@ function Portfolio() {
             </div>
           </Tile>
 
-          {/* metric tile - commits */}
-          <Tile className="col-span-3 lg:col-span-2 p-5" label="git_log">
-            <div className="font-mono text-[11px] text-muted-foreground">
-              commits / 365d
-            </div>
-            <div className="mt-1 font-display text-4xl font-semibold tracking-tight">
-              ###
-            </div>
-            <div className="mt-4 grid grid-cols-12 gap-[3px]">
-              {Array.from({ length: 60 }).map((_, i) => {
-                const h = (i * 37) % 5;
-                const colors = [
-                  "bg-surface-2",
-                  "bg-accent/20",
-                  "bg-accent/40",
-                  "bg-accent/70",
-                  "bg-accent",
-                ];
-                return <div key={i} className={`h-2 ${colors[h]} rounded-[1px]`} />;
-              })}
-            </div>
-          </Tile>
+          <GitLogTile />
 
           {/* location */}
           <Tile className="col-span-3 lg:col-span-2 p-5" label="loc">

@@ -1,9 +1,24 @@
 import { r as __toESM } from "../_runtime.mjs";
-import { n as require_jsx_runtime, r as require_react } from "../_libs/react+tanstack__react-query.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-CJh6utJa.js
+import { i as TSS_SERVER_FUNCTION, l as createServerFn } from "./esm-Dova13aH.mjs";
+import { i as require_react, r as require_jsx_runtime, t as useQuery } from "../_libs/react+tanstack__react-query.mjs";
+import { t as getServerFnById } from "../__23tanstack-start-server-fn-resolver-BFSU8T6U.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-C3-L9Ro-.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var priyan_default = "/assets/priyan-C9AquHz7.png";
+var createSsrRpc = (functionId) => {
+	const url = "/_serverFn/" + functionId;
+	const serverFnMeta = { id: functionId };
+	const fn = async (...args) => {
+		return (await getServerFnById(functionId, { origin: "server" }))(...args);
+	};
+	return Object.assign(fn, {
+		url,
+		serverFnMeta,
+		[TSS_SERVER_FUNCTION]: true
+	});
+};
+var getGitHubContributions = createServerFn({ method: "GET" }).handler(createSsrRpc("8e51eb4972d6546da11e87b211326f0cb8ffbba36ae2fc13983f397e3fbcd194"));
 var navLinks = [
 	{
 		href: "#about",
@@ -188,6 +203,46 @@ function Tile({ children, className = "", label, framed = false }) {
 			className: "absolute top-0 left-3 -translate-y-1/2 bg-bg px-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground",
 			children: label
 		}), children]
+	});
+}
+var contributionColors = [
+	"bg-surface-2",
+	"bg-accent/20",
+	"bg-accent/40",
+	"bg-accent/70",
+	"bg-accent"
+];
+function GitLogTile() {
+	const { data, isLoading, isError } = useQuery({
+		queryKey: ["github-contributions"],
+		queryFn: () => getGitHubContributions(),
+		staleTime: 1e3 * 60 * 60
+	});
+	const recent = data?.recent ?? Array.from({ length: 60 }, () => ({
+		date: "",
+		count: 0,
+		level: 0
+	}));
+	return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Tile, {
+		className: "col-span-3 lg:col-span-2 p-5",
+		label: "git_log",
+		children: [
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "font-mono text-[11px] text-muted-foreground",
+				children: "commits / 365d"
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "mt-1 font-display text-4xl font-semibold tracking-tight",
+				children: isLoading ? "···" : isError || !data ? "###" : data.total
+			}),
+			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+				className: "mt-4 grid grid-cols-12 gap-[3px]",
+				children: recent.map((day, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+					title: day.date ? `${day.date}: ${day.count} commits` : void 0,
+					className: `h-2 ${contributionColors[day.level] ?? contributionColors[0]} rounded-[1px]`
+				}, day.date || i))
+			})
+		]
 	});
 }
 function PreviewPanel({ id, name, liveUrl }) {
@@ -434,32 +489,7 @@ function Portfolio() {
 									})
 								]
 							}),
-							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Tile, {
-								className: "col-span-3 lg:col-span-2 p-5",
-								label: "git_log",
-								children: [
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-										className: "font-mono text-[11px] text-muted-foreground",
-										children: "commits / 365d"
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-										className: "mt-1 font-display text-4xl font-semibold tracking-tight",
-										children: "###"
-									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-										className: "mt-4 grid grid-cols-12 gap-[3px]",
-										children: Array.from({ length: 60 }).map((_, i) => {
-											return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: `h-2 ${[
-												"bg-surface-2",
-												"bg-accent/20",
-												"bg-accent/40",
-												"bg-accent/70",
-												"bg-accent"
-											][i * 37 % 5]} rounded-[1px]` }, i);
-										})
-									})
-								]
-							}),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)(GitLogTile, {}),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Tile, {
 								className: "col-span-3 lg:col-span-2 p-5",
 								label: "loc",
@@ -850,9 +880,9 @@ function Portfolio() {
 										"tel:+916380243702"
 									],
 									[
-										"email",
-										"priyan123xyz@gmail.com",
-										"mailto:priyan123xyz@gmail.com"
+										"instagram",
+										"@priyxn__ig__",
+										"https://www.instagram.com/priyxn__ig__?igsh=MTE0bDhlaXkyY2t2Ng%3D%3D&utm_source=qr"
 									],
 									[
 										"resume",
