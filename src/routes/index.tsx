@@ -95,13 +95,23 @@ const projects = [
       "Next.js learning workspace for database practice — SQL sandbox with in-browser sql.js execution, relational algebra and tuple calculus playgrounds, ER diagram builder, normalization wizard, synthetic table generator, and a searchable DBMS reference. Client-first with Zustand-persisted per-account state; lightweight API routes for seed datasets and Test DB health probes.",
     tags: ["Next.js", "TypeScript", "sql.js", "Zustand", "React Flow", "Tailwind CSS"],
     links: [{ label: "live", href: "https://querycraft.xyz" }],
+    proxyPreview: true,
     status: "stable",
   },
 ];
 
 const extensionProjects = [
-  "srmsgpa — SRM SGPA calculator on the portal Provisional Results page (Chrome MV3)",
-  "AegisStream — adaptive HLS/DASH buffering shield with prefetch + IndexedDB cache (Chrome MV3)",
+  {
+    name: "srmsgpa",
+    detail:
+      "SRM SGPA calculator on the portal Provisional Results page (Chrome MV3)",
+    href: "https://chromewebstore.google.com/detail/srm-sgpa-calculator/nbaajhmclhddihjcnkihjbolbkdcfijj",
+  },
+  {
+    name: "AegisStream",
+    detail:
+      "adaptive HLS/DASH buffering shield with prefetch + IndexedDB cache (Chrome MV3)",
+  },
 ];
 
 const experience = [
@@ -128,7 +138,7 @@ const education = [
     org: "SRM Institute of Science and Technology",
     range: "2024 → 2028",
     detail:
-      "CGPA: 9.11 · Honours in Financial Technologies · Chennai, India",
+      "CGPA: 9.4 · Honours in Financial Technologies · Chennai, India",
     active: true,
   },
   {
@@ -223,10 +233,22 @@ function GitLogTile() {
   );
 }
 
-function LivePreview({ name, liveUrl }: { name: string; liveUrl: string }) {
+function LivePreview({
+  name,
+  liveUrl,
+  proxyPreview = false,
+}: {
+  name: string;
+  liveUrl: string;
+  proxyPreview?: boolean;
+}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [shouldLoad, setShouldLoad] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  const iframeSrc = proxyPreview
+    ? `/api/preview?url=${encodeURIComponent(liveUrl)}`
+    : liveUrl;
 
   useEffect(() => {
     const node = containerRef.current;
@@ -245,7 +267,7 @@ function LivePreview({ name, liveUrl }: { name: string; liveUrl: string }) {
 
   useEffect(() => {
     setIsLoaded(false);
-  }, [liveUrl, shouldLoad]);
+  }, [iframeSrc, shouldLoad]);
 
   return (
     <div
@@ -254,16 +276,24 @@ function LivePreview({ name, liveUrl }: { name: string; liveUrl: string }) {
     >
       {shouldLoad && (
         <iframe
-          key={liveUrl}
-          src={liveUrl}
-          title={`${name} live preview`}
-          className="h-full w-full border-0 bg-bg"
-          referrerPolicy="no-referrer-when-downgrade"
+          key={iframeSrc}
+          src={iframeSrc}
+          title={`${name} landing preview`}
+          className={`pointer-events-none absolute top-0 left-1/2 max-w-none border-0 bg-bg ${
+            proxyPreview
+              ? "h-[720px] w-[1280px] -translate-x-1/2 origin-top scale-[0.31] sm:scale-[0.36]"
+              : "h-full w-full"
+          }`}
+          sandbox="allow-scripts allow-same-origin"
+          scrolling="no"
+          tabIndex={-1}
+          referrerPolicy="no-referrer"
           onLoad={() => setIsLoaded(true)}
         />
       )}
+      <div className="absolute inset-0 z-[5]" aria-hidden="true" />
       {!isLoaded && (
-        <div className="absolute inset-0 grid place-items-center bg-bg/90">
+        <div className="absolute inset-0 z-[4] grid place-items-center bg-bg/90">
           <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
             loading live preview...
           </div>
@@ -285,13 +315,21 @@ function PreviewPanel({
   id,
   name,
   liveUrl,
+  proxyPreview,
 }: {
   id: string;
   name: string;
   liveUrl?: string;
+  proxyPreview?: boolean;
 }) {
   if (liveUrl) {
-    return <LivePreview name={name} liveUrl={liveUrl} />;
+    return (
+      <LivePreview
+        name={name}
+        liveUrl={liveUrl}
+        proxyPreview={proxyPreview}
+      />
+    );
   }
 
   return (
@@ -538,6 +576,7 @@ function Portfolio() {
                 id={p.id}
                 name={p.title}
                 liveUrl={p.links.find((l) => l.label === "live")?.href}
+                proxyPreview={p.proxyPreview}
               />
               <div className="p-6">
                 <div className="flex items-center justify-between mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
@@ -598,9 +637,25 @@ function Portfolio() {
           <Tile className="col-span-6 p-5" label="chrome extensions">
             <ul className="font-mono text-sm space-y-2">
               {extensionProjects.map((ext) => (
-                <li key={ext} className="flex items-baseline gap-2">
+                <li key={ext.name} className="flex items-baseline gap-2">
                   <span className="text-accent text-xs">▸</span>
-                  <span className="text-muted-foreground">{ext}</span>
+                  <span className="text-muted-foreground">
+                    {ext.href ? (
+                      <a
+                        href={ext.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-foreground hover:text-accent transition-colors"
+                      >
+                        {ext.name}
+                      </a>
+                    ) : (
+                      ext.name
+                    )}
+                    {" — "}
+                    {ext.detail}
+                    {ext.href ? " ↗" : ""}
+                  </span>
                 </li>
               ))}
             </ul>
