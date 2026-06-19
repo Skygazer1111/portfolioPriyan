@@ -139,17 +139,17 @@ const education = [
   {
     school: "B.Tech in Computer Science and Engineering",
     org: "SRM Institute of Science and Technology",
-    range: "chennai, in",
+    range: "2024 → 2028",
     detail:
-      "CGPA: 9.11 · Honours in Financial Technologies",
+      "CGPA: 9.11 · Honours in Financial Technologies · Chennai, India",
     active: true,
   },
   {
     school: "Higher Secondary Certificate (Class XII)",
     org: "Chettinad Vidyashram",
-    range: "chennai, in",
+    range: "— → 2024",
     detail:
-      "88.66% · Physics, Chemistry, Mathematics, Biology",
+      "88.66% · Physics, Chemistry, Mathematics, Biology · Chennai, India",
     active: false,
   },
 ];
