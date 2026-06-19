@@ -38,8 +38,17 @@ const stack = {
   Languages: ["Python", "C / C++", "Java", "JavaScript", "TypeScript", "SQL"],
   Frameworks: ["React", "Next.js", "Flask", ".NET / WPF"],
   "Backend & DB": ["Node.js", "MySQL", "PostgreSQL", "Prisma", "Drizzle ORM", "Redis"],
-  Libraries: ["Pandas", "NumPy", "Recharts", "Fabric.js"],
-  Tools: ["Git", "GitHub", "VS Code", "Vercel", "IntelliJ", "PowerShell", "Power BI"],
+  Libraries: ["Pandas", "NumPy", "Recharts", "Fabric.js", "IndexedDB"],
+  Extensions: [
+    "Chrome Extension APIs",
+    "Manifest V3",
+    "Content Scripts",
+    "Service Workers",
+    "Fetch / XHR Interception",
+    "HLS / DASH Parsing",
+    "DNR",
+  ],
+  Tools: ["Git", "GitHub", "VS Code", "Vercel", "IntelliJ", "PowerShell", "Power BI", "Chrome DevTools"],
 };
 
 const projects = [
@@ -80,6 +89,34 @@ const projects = [
   },
 ];
 
+const extensions = [
+  {
+    id: "ext-001",
+    title: "srmsgpa",
+    subtitle: "SRM SGPA Calculator",
+    blurb:
+      "Chrome extension that calculates SGPA on the SRM portal Provisional Results page — no manual math. Injects an on-page dashboard with overall SGPA and total credits, adds per-course Include checkboxes for what-if scenarios, and recalculates instantly on toggle. Popup on/off switch, automatic table detection via MutationObserver, and fully local grade parsing — nothing leaves the browser.",
+    tags: ["Manifest V3", "JavaScript", "Content Scripts", "chrome.storage", "DOM Parsing"],
+    status: "stable",
+  },
+  {
+    id: "ext-002",
+    title: "AegisStream",
+    subtitle: "Adaptive Video Buffering Shield",
+    blurb:
+      "Site-agnostic MV3 extension that cuts HLS/DASH buffering by prefetching upcoming media chunks into IndexedDB and serving cached data through a page-context fetch bridge. Modular service-worker architecture with playlist parsing, bounded-concurrency prefetch lanes, DNR header hints, fetch/XHR interception, popup diagnostics, and graceful DRM boundaries — compatibility varies by player stack.",
+    tags: [
+      "Manifest V3",
+      "Service Workers",
+      "IndexedDB",
+      "HLS / DASH",
+      "Fetch Interception",
+      "DNR",
+    ],
+    status: "beta",
+  },
+];
+
 const experience = [
   {
     role: "Data Science Intern (Power BI)",
@@ -100,11 +137,20 @@ const experience = [
 
 const education = [
   {
-    school: "B.Tech Computer Science",
+    school: "B.Tech in Computer Science and Engineering",
     org: "SRM Institute of Science and Technology",
-    range: "— → —",
-    detail: "// add coursework, GPA, focus areas here",
+    range: "chennai, in",
+    detail:
+      "CGPA: 9.11 · Honours in Financial Technologies",
     active: true,
+  },
+  {
+    school: "Higher Secondary Certificate (Class XII)",
+    org: "Chettinad Vidyashram",
+    range: "chennai, in",
+    detail:
+      "88.66% · Physics, Chemistry, Mathematics, Biology",
+    active: false,
   },
 ];
 
@@ -244,6 +290,34 @@ function LivePreview({ name, liveUrl }: { name: string; liveUrl: string }) {
       >
         open live ↗
       </a>
+    </div>
+  );
+}
+
+function ExtensionPanel({ id, name }: { id: string; name: string }) {
+  return (
+    <div className="relative h-32 sm:h-36 bg-bg border-b border-border overflow-hidden scanlines">
+      <div className="absolute top-2 left-2 flex gap-1">
+        <span className="size-2 rounded-full bg-stone-700" />
+        <span className="size-2 rounded-full bg-stone-700" />
+        <span className="size-2 rounded-full bg-accent" />
+      </div>
+      <div className="absolute inset-0 flex items-center justify-between gap-4 px-5 sm:px-6">
+        <div className="min-w-0">
+          <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+            ./extension/{id}
+          </div>
+          <div className="mt-2 font-display text-lg sm:text-xl font-medium tracking-tight truncate">
+            {name}
+          </div>
+          <div className="mt-1 font-mono text-[10px] text-stone-600">
+            manifest v3 · chromium · unpacked install
+          </div>
+        </div>
+        <div className="shrink-0 font-mono text-[10px] uppercase tracking-[0.18em] text-accent border border-accent/50 px-2 py-1">
+          chrome ext
+        </div>
+      </div>
     </div>
   );
 }
@@ -451,8 +525,9 @@ function Portfolio() {
               <p>
                 CS undergrad at SRMIST. I spend most of my time shipping
                 full-stack apps in Next.js + TypeScript, designing schemas in
-                Postgres / MySQL, and occasionally writing C# / WPF for Windows
-                tooling.
+                Postgres / MySQL, building Chromium extensions (SGPA tools,
+                media prefetch shields), and occasionally writing C# / WPF for
+                Windows tooling.
               </p>
               <p>
                 Lately I've been into scheduling engines, concurrency-safe data
@@ -489,8 +564,12 @@ function Portfolio() {
               Selected releases
             </h2>
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-              {projects.length} entries
+              {projects.length + extensions.length} entries
             </span>
+          </div>
+
+          <div className="col-span-6 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+            web & systems
           </div>
 
           {projects.map((p, i) => (
@@ -549,6 +628,59 @@ function Portfolio() {
                 </p>
                 <div className="mt-5 flex flex-wrap gap-1.5">
                   {p.tags.map((t) => (
+                    <span
+                      key={t}
+                      className="px-2 py-0.5 border border-border font-mono text-[10px] text-muted-foreground"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </Tile>
+          ))}
+
+          <div className="col-span-6 mt-2 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+            browser extensions
+          </div>
+
+          {extensions.map((ext) => (
+            <Tile key={ext.id} className="col-span-6 lg:col-span-3 overflow-hidden group">
+              <ExtensionPanel id={ext.id} name={ext.title} />
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                  <span>release_{ext.id}</span>
+                  <span className="flex items-center gap-1.5">
+                    <span
+                      className={`size-1.5 rounded-full ${
+                        ext.status === "stable"
+                          ? "bg-accent"
+                          : ext.status === "beta"
+                          ? "bg-accent/50"
+                          : "bg-stone-600"
+                      }`}
+                    />
+                    {ext.status}
+                  </span>
+                </div>
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <h3 className="font-display text-xl sm:text-2xl font-medium tracking-tight">
+                      {ext.title}
+                    </h3>
+                    <div className="font-mono text-[11px] text-muted-foreground mt-0.5">
+                      {ext.subtitle}
+                    </div>
+                  </div>
+                  <div className="font-mono text-[11px] text-muted-foreground shrink-0 mt-1">
+                    ./unpacked
+                  </div>
+                </div>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                  {ext.blurb}
+                </p>
+                <div className="mt-5 flex flex-wrap gap-1.5">
+                  {ext.tags.map((t) => (
                     <span
                       key={t}
                       className="px-2 py-0.5 border border-border font-mono text-[10px] text-muted-foreground"
@@ -626,7 +758,7 @@ function Portfolio() {
           className="grid grid-cols-6 gap-3 sm:gap-4 scroll-mt-24"
         >
           {education.map((e) => (
-            <Tile key={e.school} className="col-span-6 lg:col-span-3 p-6">
+            <Tile key={e.org + e.school} className="col-span-6 lg:col-span-3 p-6">
               <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.2em]">
                 <span
                   className={e.active ? "text-accent" : "text-muted-foreground"}
