@@ -2,7 +2,7 @@ import { r as __toESM } from "../_runtime.mjs";
 import { i as TSS_SERVER_FUNCTION, l as createServerFn } from "./esm-Dova13aH.mjs";
 import { i as require_react, r as require_jsx_runtime, t as useQuery } from "../_libs/react+tanstack__react-query.mjs";
 import { t as getServerFnById } from "../__23tanstack-start-server-fn-resolver-BFSU8T6U.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-C3-L9Ro-.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-D9b7OUzL.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var priyan_default = "/assets/priyan-C9AquHz7.png";
@@ -384,7 +384,7 @@ function Portfolio() {
 					children: Array.from({ length: 2 }).map((_, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
 						className: "flex shrink-0 gap-8 px-4",
 						children: [
-							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "+++ open to swe / backend roles +++" }),
+							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "+++ open to swe / ai dev / data roles +++" }),
 							/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 								className: "text-accent",
 								children: "★"
@@ -475,16 +475,51 @@ function Portfolio() {
 											children: "ONLINE"
 										})]
 									}),
-									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-										className: "mt-4 font-display text-2xl font-medium leading-tight",
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "mt-4 font-display text-xl font-medium leading-tight",
+										children: "Open for roles"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("ul", {
+										className: "mt-3 space-y-1.5 font-mono text-[11px]",
 										children: [
-											"Open for ",
-											/* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
-											"SWE roles"
+											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", {
+												className: "flex items-baseline justify-between gap-2",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+													className: "text-foreground",
+													children: "software engineer"
+												}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+													className: "text-accent shrink-0",
+													children: "open"
+												})]
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", {
+												className: "flex items-baseline justify-between gap-2",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+													className: "text-foreground",
+													children: "ai developer"
+												}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+													className: "text-accent shrink-0",
+													children: "open"
+												})]
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("li", {
+												className: "flex items-baseline justify-between gap-2",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+													className: "text-foreground",
+													children: "data analyst"
+												}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+													className: "text-muted-foreground shrink-0",
+													children: "interning"
+												})]
+											})
 										]
 									}),
 									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
-										className: "mt-4 font-mono text-[11px] text-muted-foreground",
+										className: "mt-3 font-mono text-[11px] text-muted-foreground",
+										children: "data analyst @ infoplus mdm · power bi"
+									}),
+									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
+										className: "mt-2 font-mono text-[11px] text-muted-foreground",
 										children: "chennai · remote ok"
 									})
 								]

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import portraitImage from "../../priyan.png";
 import { getGitHubContributions } from "../lib/api/github.functions";
 
@@ -190,6 +190,74 @@ function GitLogTile() {
   );
 }
 
+function LivePreview({ name, liveUrl }: { name: string; liveUrl: string }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isBlocked, setIsBlocked] = useState(false);
+  const hasLoadedRef = useRef(false);
+
+  useEffect(() => {
+    setIsLoaded(false);
+    setIsBlocked(false);
+    hasLoadedRef.current = false;
+
+    const timer = window.setTimeout(() => {
+      if (!hasLoadedRef.current) setIsBlocked(true);
+    }, 8000);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [liveUrl]);
+
+  const handleLoad = () => {
+    hasLoadedRef.current = true;
+    setIsLoaded(true);
+    setIsBlocked(false);
+  };
+
+  return (
+    <div className="relative h-48 sm:h-56 bg-bg border-b border-border overflow-hidden">
+      <iframe
+        src={liveUrl}
+        title={`${name} live preview`}
+        loading="lazy"
+        className="h-full w-full border-0 bg-bg"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+        referrerPolicy="no-referrer-when-downgrade"
+        onLoad={handleLoad}
+        onError={() => setIsBlocked(true)}
+      />
+      {!isLoaded && !isBlocked && (
+        <div className="absolute inset-0 grid place-items-center bg-bg/90">
+          <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+            loading live preview...
+          </div>
+        </div>
+      )}
+      {isBlocked && !isLoaded && (
+        <div className="absolute inset-0 grid place-items-center bg-bg/95 scanlines p-4 text-center">
+          <div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              live preview unavailable
+            </div>
+            <div className="mt-2 font-mono text-[11px] text-stone-600">
+              target site blocks iframe embedding
+            </div>
+          </div>
+        </div>
+      )}
+      <a
+        href={liveUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute right-2 top-2 font-mono text-[10px] uppercase tracking-[0.2em] bg-bg/90 border border-border px-2 py-1 text-accent hover:bg-bg transition-colors"
+      >
+        open live ↗
+      </a>
+    </div>
+  );
+}
+
 function PreviewPanel({
   id,
   name,
@@ -200,63 +268,7 @@ function PreviewPanel({
   liveUrl?: string;
 }) {
   if (liveUrl) {
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [isBlocked, setIsBlocked] = useState(false);
-
-    useEffect(() => {
-      setIsLoaded(false);
-      setIsBlocked(false);
-
-      const timer = window.setTimeout(() => {
-        setIsBlocked(true);
-      }, 4500);
-
-      return () => {
-        window.clearTimeout(timer);
-      };
-    }, [liveUrl]);
-
-    return (
-      <div className="relative h-48 sm:h-56 bg-bg border-b border-border overflow-hidden">
-        <iframe
-          src={liveUrl}
-          title={`${name} live preview`}
-          loading="lazy"
-          className="h-full w-full border-0 bg-bg"
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-          referrerPolicy="no-referrer-when-downgrade"
-          onLoad={() => setIsLoaded(true)}
-          onError={() => setIsBlocked(true)}
-        />
-        {!isLoaded && !isBlocked && (
-          <div className="absolute inset-0 grid place-items-center bg-bg/90">
-            <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-              loading live preview...
-            </div>
-          </div>
-        )}
-        {isBlocked && (
-          <div className="absolute inset-0 grid place-items-center bg-bg/95 scanlines p-4 text-center">
-            <div>
-              <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
-                live preview unavailable
-              </div>
-              <div className="mt-2 font-mono text-[11px] text-stone-600">
-                target site blocks iframe embedding
-              </div>
-            </div>
-          </div>
-        )}
-        <a
-          href={liveUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="absolute right-2 top-2 font-mono text-[10px] uppercase tracking-[0.2em] bg-bg/90 border border-border px-2 py-1 text-accent hover:bg-bg transition-colors"
-        >
-          open live ↗
-        </a>
-      </div>
-    );
+    return <LivePreview name={name} liveUrl={liveUrl} />;
   }
 
   return (
@@ -318,7 +330,7 @@ function Portfolio() {
         <div className="flex whitespace-nowrap animate-marquee py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
           {Array.from({ length: 2 }).map((_, i) => (
             <div key={i} className="flex shrink-0 gap-8 px-4">
-              <span>+++ open to swe / backend roles +++</span>
+              <span>+++ open to swe / ai dev / data roles +++</span>
               <span className="text-accent">★</span>
               <span>+++ shipping in ts, python, c# +++</span>
               <span className="text-accent">★</span>
@@ -376,11 +388,27 @@ function Portfolio() {
               <span className="size-2 rounded-full bg-accent animate-blink" />
               <span className="text-accent">ONLINE</span>
             </div>
-            <div className="mt-4 font-display text-2xl font-medium leading-tight">
-              Open for <br />
-              SWE roles
+            <div className="mt-4 font-display text-xl font-medium leading-tight">
+              Open for roles
             </div>
-            <div className="mt-4 font-mono text-[11px] text-muted-foreground">
+            <ul className="mt-3 space-y-1.5 font-mono text-[11px]">
+              <li className="flex items-baseline justify-between gap-2">
+                <span className="text-foreground">software engineer</span>
+                <span className="text-accent shrink-0">open</span>
+              </li>
+              <li className="flex items-baseline justify-between gap-2">
+                <span className="text-foreground">ai developer</span>
+                <span className="text-accent shrink-0">open</span>
+              </li>
+              <li className="flex items-baseline justify-between gap-2">
+                <span className="text-foreground">data analyst</span>
+                <span className="text-muted-foreground shrink-0">interning</span>
+              </li>
+            </ul>
+            <div className="mt-3 font-mono text-[11px] text-muted-foreground">
+              data analyst @ infoplus mdm · power bi
+            </div>
+            <div className="mt-2 font-mono text-[11px] text-muted-foreground">
               chennai · remote ok
             </div>
           </Tile>
