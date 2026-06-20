@@ -124,13 +124,6 @@ const experience = [
       "Working with large datasets for analysis, visualization, and insight generation in Microsoft Power BI. Building interactive dashboards and reports, applying Power Query + DAX transformations, supporting data-driven decisions with industry teams.",
     active: true,
   },
-  {
-    role: "Project Intern",
-    org: "ISD Lab, SRM Institute of Science and Technology",
-    range: "—",
-    detail: "// add details here",
-    active: false,
-  },
 ];
 
 const education = [
