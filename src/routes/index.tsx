@@ -249,7 +249,7 @@ function VideoPreview({
       ([entry]) => {
         if (entry?.isIntersecting) setShouldLoad(true);
       },
-      { rootMargin: "300px 0px" },
+      { rootMargin: "120px 0px" },
     );
 
     observer.observe(node);
@@ -275,9 +275,9 @@ function VideoPreview({
           muted
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
           aria-label={`${name} landing page preview`}
-          onLoadedData={() => setIsLoaded(true)}
+          onCanPlay={() => setIsLoaded(true)}
           onError={() => setHasError(true)}
         />
       )}
