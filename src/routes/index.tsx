@@ -51,17 +51,7 @@ const stack = {
   Tools: ["Git", "GitHub", "VS Code", "Vercel", "IntelliJ", "PowerShell", "Power BI", "Chrome DevTools", "Vitest"],
 };
 
-const projects = [
-  {
-    id: "001",
-    title: "TidyWindow",
-    subtitle: "Windows Maintenance Platform",
-    blurb:
-      "Windows system maintenance tool built with WPF (.NET 8) and C# services — cleanup, diagnostics, optimization. PowerShell 7 automation with secure execution, logging, rollback. Software management, registry tuning, system monitoring.",
-    tags: [".NET 8", "C#", "WPF", "PowerShell"],
-    links: [{ label: "src", href: "https://github.com/Skygazer1111/TidyWindow" }],
-    status: "stable",
-  },
+const webProjects = [
   {
     id: "002",
     title: "Compus",
@@ -99,6 +89,15 @@ const projects = [
     links: [{ label: "live", href: "https://querycraft.xyz" }],
     previewVideo: "/previews/querycraft.mp4",
     status: "stable",
+  },
+];
+
+const desktopProjects = [
+  {
+    name: "TidyWindow",
+    detail:
+      "Windows maintenance platform — WPF (.NET 8) + C# services for cleanup, diagnostics, optimization, PowerShell 7 automation, registry tuning, and system monitoring.",
+    href: "https://github.com/Skygazer1111/TidyWindow",
   },
 ];
 
@@ -272,18 +271,18 @@ function VideoPreview({
   return (
     <div
       ref={containerRef}
-      className="relative h-48 sm:h-56 bg-bg border-b border-border overflow-hidden"
+      className="relative aspect-video w-full bg-bg border-b border-border overflow-hidden"
     >
       {shouldLoad && !hasError && (
         <video
           key={previewVideo}
           src={previewVideo}
-          className="h-full w-full object-cover object-top bg-bg"
+          className="absolute inset-0 h-full w-full object-cover object-center"
           autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           aria-label={`${name} landing page preview`}
           onLoadedData={() => setIsLoaded(true)}
           onError={() => setHasError(true)}
@@ -344,7 +343,7 @@ function PreviewPanel({
 
   if (liveUrl) {
     return (
-      <div className="relative h-48 sm:h-56 bg-bg border-b border-border overflow-hidden scanlines">
+      <div className="relative aspect-video w-full bg-bg border-b border-border overflow-hidden scanlines">
         <div className="absolute inset-0 grid place-items-center p-4 text-center">
           <div>
             <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
@@ -368,7 +367,7 @@ function PreviewPanel({
   }
 
   return (
-    <div className="relative h-48 sm:h-56 bg-bg border-b border-border overflow-hidden scanlines">
+    <div className="relative aspect-video w-full bg-bg border-b border-border overflow-hidden scanlines">
       <div className="absolute inset-0 grid place-items-center">
         <div className="text-center">
           <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
@@ -596,11 +595,16 @@ function Portfolio() {
               Selected releases
             </h2>
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-              {projects.length} entries
+              {webProjects.length + desktopProjects.length + extensionProjects.length}{" "}
+              entries
             </span>
           </div>
 
-          {projects.map((p, i) => (
+          <div className="col-span-6 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+            web apps
+          </div>
+
+          {webProjects.map((p, i) => (
             <Tile
               key={p.id}
               className={`col-span-6 ${
@@ -668,6 +672,33 @@ function Portfolio() {
               </div>
             </Tile>
           ))}
+
+          <Tile className="col-span-6 p-5" label="desktop apps">
+            <ul className="font-mono text-sm space-y-2">
+              {desktopProjects.map((app) => (
+                <li key={app.name} className="flex items-baseline gap-2">
+                  <span className="text-accent text-xs">▸</span>
+                  <span className="text-muted-foreground">
+                    {app.href ? (
+                      <a
+                        href={app.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-foreground hover:text-accent transition-colors"
+                      >
+                        {app.name}
+                      </a>
+                    ) : (
+                      app.name
+                    )}
+                    {" — "}
+                    {app.detail}
+                    {app.href ? " ↗" : ""}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </Tile>
 
           <Tile className="col-span-6 p-5" label="chrome extensions">
             <ul className="font-mono text-sm space-y-2">
