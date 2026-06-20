@@ -73,6 +73,7 @@ const projects = [
       { label: "live", href: "https://compusweb.app/" },
       { label: "src", href: "https://github.com/HARIHARAN-38/Compus" },
     ],
+    previewVideo: "/previews/compus.mp4",
     status: "beta",
   },
   {
@@ -85,6 +86,7 @@ const projects = [
     links: [
       { label: "live", href: "https://uni-slot-three.vercel.app" },
     ],
+    previewVideo: "/previews/unislot.mp4",
     status: "stable",
   },
   {
@@ -95,7 +97,7 @@ const projects = [
       "Next.js learning workspace for database practice — SQL sandbox with in-browser sql.js execution, relational algebra and tuple calculus playgrounds, ER diagram builder, normalization wizard, synthetic table generator, and a searchable DBMS reference. Client-first with Zustand-persisted per-account state; lightweight API routes for seed datasets and Test DB health probes.",
     tags: ["Next.js", "TypeScript", "sql.js", "Zustand", "React Flow", "Tailwind CSS"],
     links: [{ label: "live", href: "https://querycraft.xyz" }],
-    proxyPreview: true,
+    previewVideo: "/previews/querycraft.mp4",
     status: "stable",
   },
 ];
@@ -233,22 +235,19 @@ function GitLogTile() {
   );
 }
 
-function LivePreview({
+function VideoPreview({
   name,
   liveUrl,
-  proxyPreview = false,
+  previewVideo,
 }: {
   name: string;
   liveUrl: string;
-  proxyPreview?: boolean;
+  previewVideo: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [shouldLoad, setShouldLoad] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-
-  const iframeSrc = proxyPreview
-    ? `/api/preview?url=${encodeURIComponent(liveUrl)}`
-    : liveUrl;
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     const node = containerRef.current;
@@ -267,35 +266,46 @@ function LivePreview({
 
   useEffect(() => {
     setIsLoaded(false);
-  }, [iframeSrc, shouldLoad]);
+    setHasError(false);
+  }, [previewVideo, shouldLoad]);
 
   return (
     <div
       ref={containerRef}
       className="relative h-48 sm:h-56 bg-bg border-b border-border overflow-hidden"
     >
-      {shouldLoad && (
-        <iframe
-          key={iframeSrc}
-          src={iframeSrc}
-          title={`${name} landing preview`}
-          className={`pointer-events-none absolute top-0 left-1/2 max-w-none border-0 bg-bg ${
-            proxyPreview
-              ? "h-[720px] w-[1280px] -translate-x-1/2 origin-top scale-[0.31] sm:scale-[0.36]"
-              : "h-full w-full"
-          }`}
-          sandbox="allow-scripts allow-same-origin"
-          scrolling="no"
-          tabIndex={-1}
-          referrerPolicy="no-referrer"
-          onLoad={() => setIsLoaded(true)}
+      {shouldLoad && !hasError && (
+        <video
+          key={previewVideo}
+          src={previewVideo}
+          className="h-full w-full object-cover object-top bg-bg"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          aria-label={`${name} landing page preview`}
+          onLoadedData={() => setIsLoaded(true)}
+          onError={() => setHasError(true)}
         />
       )}
       <div className="absolute inset-0 z-[5]" aria-hidden="true" />
-      {!isLoaded && (
+      {!isLoaded && !hasError && (
         <div className="absolute inset-0 z-[4] grid place-items-center bg-bg/90">
           <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-            loading live preview...
+            loading preview...
+          </div>
+        </div>
+      )}
+      {hasError && (
+        <div className="absolute inset-0 z-[4] grid place-items-center bg-bg/95 scanlines p-4 text-center">
+          <div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              landing preview
+            </div>
+            <div className="mt-2 font-mono text-[11px] text-stone-600">
+              add {previewVideo.split("/").pop()} to public/previews
+            </div>
           </div>
         </div>
       )}
@@ -315,20 +325,45 @@ function PreviewPanel({
   id,
   name,
   liveUrl,
-  proxyPreview,
+  previewVideo,
 }: {
   id: string;
   name: string;
   liveUrl?: string;
-  proxyPreview?: boolean;
+  previewVideo?: string;
 }) {
-  if (liveUrl) {
+  if (liveUrl && previewVideo) {
     return (
-      <LivePreview
+      <VideoPreview
         name={name}
         liveUrl={liveUrl}
-        proxyPreview={proxyPreview}
+        previewVideo={previewVideo}
       />
+    );
+  }
+
+  if (liveUrl) {
+    return (
+      <div className="relative h-48 sm:h-56 bg-bg border-b border-border overflow-hidden scanlines">
+        <div className="absolute inset-0 grid place-items-center p-4 text-center">
+          <div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+              landing preview pending
+            </div>
+            <div className="mt-2 font-mono text-[11px] text-stone-600">
+              drop a screen recording in public/previews
+            </div>
+          </div>
+        </div>
+        <a
+          href={liveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="absolute right-2 top-2 z-10 font-mono text-[10px] uppercase tracking-[0.2em] bg-bg/90 border border-border px-2 py-1 text-accent hover:bg-bg transition-colors"
+        >
+          open live ↗
+        </a>
+      </div>
     );
   }
 
@@ -576,7 +611,7 @@ function Portfolio() {
                 id={p.id}
                 name={p.title}
                 liveUrl={p.links.find((l) => l.label === "live")?.href}
-                proxyPreview={p.proxyPreview}
+                previewVideo={p.previewVideo}
               />
               <div className="p-6">
                 <div className="flex items-center justify-between mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
