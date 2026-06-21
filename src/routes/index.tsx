@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import portraitImage from "../../priyan.png";
+import { MechanicalSnake } from "../components/MechanicalSnake";
 import { getGitHubContributions } from "../lib/api/github.functions";
 
 export const Route = createFileRoute("/")({
@@ -384,6 +385,8 @@ function PreviewPanel({
 function Portfolio() {
   return (
     <div className="relative min-h-screen text-foreground selection:bg-accent selection:text-accent-foreground">
+      <MechanicalSnake />
+
       {/* Nav */}
       <nav className="fixed top-0 z-50 w-full border-b border-border bg-bg/85 backdrop-blur-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-4">
@@ -429,7 +432,7 @@ function Portfolio() {
         </div>
       </div>
 
-      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-28 pb-16">
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 pt-28 pb-16">
         {/* HERO bento */}
         <section className="grid grid-cols-6 gap-3 sm:gap-4">
           {/* Hero headline */}
