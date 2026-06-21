@@ -36,36 +36,20 @@ const navLinks = [
 
 const stack = {
   Languages: ["Python", "C / C++", "Java", "JavaScript", "TypeScript", "SQL"],
-  Frameworks: ["React", "Next.js", "Flask", ".NET / WPF", "React Flow"],
-  "Backend & DB": ["Node.js", "MySQL", "PostgreSQL", "Prisma", "Drizzle ORM", "Redis"],
-  Libraries: ["Pandas", "NumPy", "Recharts", "Fabric.js", "IndexedDB", "sql.js", "Zustand", "Faker.js"],
-  Extensions: [
+  Frameworks: [
+    "React",
+    "Next.js",
+    "Flask",
+    ".NET / WPF",
+    "React Flow",
     "Chrome Extension APIs",
     "Manifest V3",
-    "Content Scripts",
-    "Service Workers",
-    "Fetch / XHR Interception",
-    "HLS / DASH Parsing",
-    "DNR",
   ],
-  Tools: ["Git", "GitHub", "VS Code", "Vercel", "IntelliJ", "PowerShell", "Power BI", "Chrome DevTools", "Vitest"],
+  "Backend & DB": ["Node.js", "MySQL", "PostgreSQL", "Prisma", "Drizzle ORM", "Redis"],
+  Libraries: ["Pandas", "NumPy", "sql.js", "Zustand", "IndexedDB"],
 };
 
 const webProjects = [
-  {
-    id: "002",
-    title: "Compus",
-    subtitle: "Faculty–HOD Appointment Scheduling",
-    blurb:
-      "Full-stack scheduling platform for SRMIST with role-based workflows for Faculty, HODs, Admins. Priority-driven scheduling engine with conflict resolution + concurrency-safe slot allocation via PostgreSQL row locking and Redis. Google Calendar, push notifications, NextAuth + WebAuthn.",
-    tags: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "Redis"],
-    links: [
-      { label: "live", href: "https://compusweb.app/" },
-      { label: "src", href: "https://github.com/HARIHARAN-38/Compus" },
-    ],
-    previewVideo: "/previews/compus.mp4",
-    status: "beta",
-  },
   {
     id: "003",
     title: "UniSlot",
@@ -89,6 +73,20 @@ const webProjects = [
     links: [{ label: "live", href: "https://querycraft.xyz" }],
     previewVideo: "/previews/querycraft.mp4",
     status: "stable",
+  },
+  {
+    id: "002",
+    title: "Compus",
+    subtitle: "Faculty–HOD Appointment Scheduling",
+    blurb:
+      "Full-stack scheduling platform for SRMIST with role-based workflows for Faculty, HODs, Admins. Priority-driven scheduling engine with conflict resolution + concurrency-safe slot allocation via PostgreSQL row locking and Redis. Google Calendar, push notifications, NextAuth + WebAuthn.",
+    tags: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "Redis"],
+    links: [
+      { label: "live", href: "https://compusweb.app/" },
+      { label: "src", href: "https://github.com/HARIHARAN-38/Compus" },
+    ],
+    previewVideo: "/previews/compus.mp4",
+    status: "beta",
   },
 ];
 
@@ -543,24 +541,23 @@ function Portfolio() {
         <section id="about" className="grid grid-cols-6 gap-3 sm:gap-4 scroll-mt-24">
           <Tile className="col-span-6 lg:col-span-4 p-8" label="readme.md">
             <h2 className="font-display text-3xl sm:text-4xl font-medium tracking-tight">
-              I build across the stack — and I <span className="text-accent">like the messy parts</span>.
+              I build across the stack — and I{" "}
+              <span className="text-accent">like the messy parts</span>.
             </h2>
             <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                CS undergrad at SRMIST. I spend most of my time shipping
-                full-stack apps in Next.js + TypeScript, designing schemas in
-                Postgres / MySQL, building Chromium extensions (SGPA tools,
-                media prefetch shields), and occasionally writing C# / WPF for
-                Windows tooling.
+                CS undergrad at SRMIST. I spend most of my time shipping web
+                apps, working with databases, building browser extensions, and
+                occasionally tinkering with Windows tools when the mood hits.
               </p>
               <p>
-                Lately I've been into scheduling engines, concurrency-safe data
-                workflows, and figuring out where AI actually pulls weight in a
-                product (and where it just makes things slower).
+                Lately I've been into scheduling problems, making sure things
+                don't fall apart when they get busy, and figuring out where AI
+                actually helps — and where it just gets in the way.
               </p>
               <p>
-                Off the keyboard: hackathons, research on ML for air quality,
-                and helping run IEEE CS at SRMIST.
+                Off the keyboard: hackathons, research on air quality, and
+                helping run IEEE CS at SRMIST.
               </p>
             </div>
           </Tile>
@@ -597,12 +594,10 @@ function Portfolio() {
             web apps
           </div>
 
-          {webProjects.map((p, i) => (
+          {webProjects.map((p) => (
             <Tile
               key={p.id}
-              className={`col-span-6 ${
-                i === 0 ? "lg:col-span-4" : "lg:col-span-3"
-              } overflow-hidden group`}
+              className="col-span-6 lg:col-span-3 overflow-hidden group"
             >
               <PreviewPanel
                 id={p.id}
