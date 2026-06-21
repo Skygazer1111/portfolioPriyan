@@ -89,6 +89,20 @@ const webProjects = [
     previewVideo: "/previews/compus.mp4",
     status: "beta",
   },
+  {
+    id: "005",
+    title: "GradeSnap",
+    subtitle: "First Screenshot-to-CGPA Calculator for SRM",
+    blurb:
+      "Not another manual CGPA calculator — GradeSnap is the first image-based OCR tool built for SRM students. Upload a screenshot of your portal results page and it extracts every subject, credit, and grade locally in the browser, then calculates SGPA or CGPA for you. No typing rows by hand. Review, edit if needed, and you're done.",
+    tags: ["React", "TypeScript", "PaddleOCR", "ONNX Runtime Web", "Tailwind CSS", "Vite"],
+    links: [
+      { label: "live", href: "https://easy-cgpa-calculator.vercel.app" },
+      { label: "src", href: "https://github.com/Skygazer1111/GradeSnap" },
+    ],
+    previewVideo: "/previews/gradesnap.mp4",
+    status: "stable",
+  },
 ];
 
 const desktopProjects = [
