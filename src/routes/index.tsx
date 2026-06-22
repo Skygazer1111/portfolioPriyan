@@ -2,13 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import portraitImage from "../../priyan.png";
-import { MechanicalSnake } from "../components/MechanicalSnake";
+import { ParticleBackground } from "../components/ParticleBackground";
 import { getGitHubContributions } from "../lib/api/github.functions";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "priyan.r // cs portfolio [v2.4-CRACKED]" },
+      { title: "priyan.r // cs portfolio [v2.4-stable]" },
       {
         name: "description",
         content:
@@ -56,7 +56,7 @@ const webProjects = [
     title: "UniSlot",
     subtitle: "University Evening Course Scheduling Engine",
     blurb:
-      "NP-Hard timetabling solver for 2,600 students and 306+ courses across 55 evening slots. Models the problem as a weighted conflict graph with ILP constraints, then optimizes via metaheuristics (SA, Tabu Search, GA) and Timefold's incremental scoring. Resolves the student sectioning paradox through edge-minimizing pre-clustering before master timetable generation. Built on insights from ITC 2019 winning architectures.",
+      "A scheduling engine that automatically generates conflict-free timetables for 2,600 students across 306+ courses — work that previously took days of manual planning. Under the hood, UniSlot treats university timetabling as an NP-hard optimization problem: weighted conflict graphs, ILP constraints, metaheuristics (SA, Tabu Search, GA), and Timefold incremental scoring. Pre-clusters students to resolve the sectioning paradox before generating the master timetable. Built on ITC 2019-winning architecture patterns.",
     tags: ["Python", "Timefold", "OR-Tools", "ILP", "Graph Theory", "Next.js"],
     links: [
       { label: "live", href: "https://uni-slot-three.vercel.app" },
@@ -69,7 +69,7 @@ const webProjects = [
     title: "QueryCraft",
     subtitle: "Database Learning Studio",
     blurb:
-      "Next.js learning workspace for database practice — SQL sandbox with in-browser sql.js execution, relational algebra and tuple calculus playgrounds, ER diagram builder, normalization wizard, synthetic table generator, and a searchable DBMS reference. Client-first with Zustand-persisted per-account state; lightweight API routes for seed datasets and Test DB health probes.",
+      "Learn databases by doing, not reading slides. QueryCraft is an all-in-one practice studio — run SQL in-browser with sql.js, build ER diagrams, walk through normalization, explore relational algebra and tuple calculus, and spin up synthetic tables on demand. Client-first with Zustand-persisted state; lightweight API routes only for seed datasets and health checks.",
     tags: ["Next.js", "TypeScript", "sql.js", "Zustand", "React Flow", "Tailwind CSS"],
     links: [{ label: "live", href: "https://querycraft.xyz" }],
     previewVideo: "/previews/querycraft.mp4",
@@ -399,7 +399,7 @@ function PreviewPanel({
 function Portfolio() {
   return (
     <div className="relative min-h-screen text-foreground selection:bg-accent selection:text-accent-foreground">
-      <MechanicalSnake />
+      <ParticleBackground />
 
       {/* Nav */}
       <nav className="fixed top-0 z-50 w-full border-b border-border bg-bg/85 backdrop-blur-md">
@@ -410,7 +410,7 @@ function Portfolio() {
             <span className="text-muted-foreground hidden sm:inline">
               / portfolio.v2.4
             </span>
-            <span className="text-accent hidden sm:inline">[CRACKED]</span>
+            <span className="text-accent hidden sm:inline">[v2.4-stable]</span>
           </div>
           <div className="hidden md:flex gap-5 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
             {navLinks.map((l) => (
@@ -439,7 +439,7 @@ function Portfolio() {
               <span className="text-accent">★</span>
               <span>+++ based in chennai, in +++</span>
               <span className="text-accent">★</span>
-              <span>+++ dm: priyan123xyz@gmail.com +++</span>
+              <span>+++ dm: priyanrajarajan44@gmail.com +++</span>
               <span className="text-accent">★</span>
             </div>
           ))}
@@ -861,10 +861,10 @@ function Portfolio() {
               The inbox is open.
             </h2>
             <a
-              href="mailto:priyan123xyz@gmail.com"
+              href="mailto:priyanrajarajan44@gmail.com"
               className="mt-8 inline-flex items-center gap-3 font-mono text-base sm:text-lg text-accent border-b border-accent/60 hover:border-accent transition-colors pb-1"
             >
-              priyan123xyz@gmail.com
+              priyanrajarajan44@gmail.com
               <span className="text-xs">↗</span>
             </a>
           </Tile>
@@ -874,8 +874,7 @@ function Portfolio() {
               {[
                 ["github", "@Skygazer1111", "https://github.com/Skygazer1111"],
                 ["linkedin", "/priyan-rajarajan", "https://linkedin.com/in/priyan-rajarajan-b8128b2a2"],
-                ["phone", "+91 63802 43702", "tel:+916380243702"],
-                ["instagram", "@priyxn__ig__", "https://www.instagram.com/priyxn__ig__?igsh=MTE0bDhlaXkyY2t2Ng%3D%3D&utm_source=qr"],
+                ["leetcode", "@Skygazer1111", "https://leetcode.com/u/Skygazer1111/"],
                 ["resume", "view resume", "https://drive.google.com/file/d/1RrPsUcDj7xGSpxlYU0G4W8mkvIVJRZql/view?usp=sharing"],
               ].map(([k, v, href]) => (
                 <li key={k} className="flex items-baseline justify-between gap-2 border-b border-border pb-2 last:border-0">
@@ -892,9 +891,9 @@ function Portfolio() {
 
       <footer className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-10 mt-8 border-t border-border">
         <div className="flex flex-col sm:flex-row justify-between items-start gap-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-          <p>© 2026 priyan rajarajan — assembled by hand</p>
+          <p>© 2026 priyan rajarajan</p>
           <p>
-            build <span className="text-accent">v2.4.1-cracked</span> · chennai · ist
+            build <span className="text-accent">v2.4-stable</span> · chennai · ist
           </p>
         </div>
       </footer>

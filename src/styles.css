@@ -132,7 +132,7 @@
   animation: blink 1s steps(1) infinite;
 }
 
-.mechanical-snake {
+.particle-bg {
   position: absolute;
   inset: 0;
   z-index: 1;
@@ -140,41 +140,15 @@
   overflow: hidden;
 }
 
-.mechanical-snake svg {
+.particle-bg canvas {
+  display: block;
   width: 100%;
   height: 100%;
 }
 
-.mechanical-snake__track {
-  fill: none;
-  stroke: var(--accent-dim);
-  stroke-width: 1px;
-  opacity: 0.18;
-}
-
-.mechanical-snake__unit {
-  opacity: 0.75;
-}
-
-.mechanical-snake__segment {
-  fill: var(--accent);
-  stroke: var(--accent-foreground);
-  stroke-width: 0.35px;
-  filter: drop-shadow(0 0 6px rgba(255, 122, 26, 0.5));
-}
-
-.mechanical-snake__segment--tail {
-  opacity: 0.45;
-}
-
-.mechanical-snake__head {
-  fill: var(--accent-foreground);
-  stroke: var(--accent);
-  stroke-width: 0.35px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .mechanical-snake__unit animateMotion {
-    display: none;
-  }
+/* Hide Lovable dev/preview watermark if injected */
+a[href*="lovable.dev"],
+[data-lovable-tagger],
+#lovable-badge {
+  display: none !important;
 }
