@@ -1,9 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import portraitImage from "../../priyan.png";
 import { ParticleBackground } from "../components/ParticleBackground";
+import { ScrollReveal } from "../components/ScrollReveal";
 import { getGitHubContributions } from "../lib/api/github.functions";
+
+const MOTION_EASE = [0.22, 1, 0.36, 1] as const;
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -178,25 +182,59 @@ function Tile({
   className = "",
   label,
   framed = false,
+  reveal = false,
+  delay = 0,
 }: {
   children: React.ReactNode;
   className?: string;
   label?: string;
   framed?: boolean;
+  reveal?: boolean | "mount";
+  delay?: number;
 }) {
-  return (
-    <div
-      className={`relative bg-surface border border-border rounded-lg ${
-        framed ? "corner-frame" : ""
-      } ${className}`}
-    >
+  const reduceMotion = useReducedMotion();
+  const classes = `relative bg-surface border border-border rounded-lg ${
+    framed ? "corner-frame" : ""
+  } ${className}`;
+
+  const content = (
+    <>
       {label && (
         <div className="absolute top-0 left-3 -translate-y-1/2 bg-bg px-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
           {label}
         </div>
       )}
       {children}
-    </div>
+    </>
+  );
+
+  if (reduceMotion || !reveal) {
+    return <div className={classes}>{content}</div>;
+  }
+
+  if (reveal === "mount") {
+    return (
+      <motion.div
+        className={classes}
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.55, delay, ease: MOTION_EASE }}
+      >
+        {content}
+      </motion.div>
+    );
+  }
+
+  return (
+    <motion.div
+      className={classes}
+      initial={{ opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.12, margin: "0px 0px -48px 0px" }}
+      transition={{ duration: 0.55, delay, ease: MOTION_EASE }}
+    >
+      {content}
+    </motion.div>
   );
 }
 
@@ -220,7 +258,7 @@ function GitLogTile() {
     Array.from({ length: 60 }, () => ({ date: "", count: 0, level: 0 }));
 
   return (
-    <Tile className="col-span-3 lg:col-span-2 p-5" label="git_log">
+    <Tile className="col-span-3 lg:col-span-2 p-5" label="git_log" reveal="mount" delay={0.12}>
       <div className="font-mono text-[11px] text-muted-foreground">
         commits / 365d
       </div>
@@ -450,7 +488,7 @@ function Portfolio() {
         {/* HERO bento */}
         <section className="grid grid-cols-6 gap-3 sm:gap-4">
           {/* Hero headline */}
-          <Tile className="col-span-6 lg:col-span-4 p-8 sm:p-12" framed>
+          <Tile className="col-span-6 lg:col-span-4 p-8 sm:p-12" framed reveal="mount" delay={0}>
             <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground mb-6">
               <span>~/whoami</span>
               <span className="animate-blink text-accent">▌</span>
@@ -486,7 +524,7 @@ function Portfolio() {
           </Tile>
 
           {/* status tile */}
-          <Tile className="col-span-3 lg:col-span-2 p-5" label="status">
+          <Tile className="col-span-3 lg:col-span-2 p-5" label="status" reveal="mount" delay={0.08}>
             <div className="flex items-center gap-2 font-mono text-xs">
               <span className="size-2 rounded-full bg-accent animate-blink" />
               <span className="text-accent">ONLINE</span>
@@ -519,7 +557,7 @@ function Portfolio() {
           <GitLogTile />
 
           {/* location */}
-          <Tile className="col-span-3 lg:col-span-2 p-5" label="loc">
+          <Tile className="col-span-3 lg:col-span-2 p-5" label="loc" reveal="mount" delay={0.16}>
             <div className="font-display text-2xl">Chennai, IN</div>
             <div className="mt-1 font-mono text-[11px] text-muted-foreground">
               13.0827° N, 80.2707° E
@@ -531,7 +569,7 @@ function Portfolio() {
           </Tile>
 
           {/* currently */}
-          <Tile className="col-span-3 lg:col-span-2 p-5" label="now">
+          <Tile className="col-span-3 lg:col-span-2 p-5" label="now" reveal="mount" delay={0.2}>
             <div className="font-mono text-[11px] text-muted-foreground mb-2">
               currently
             </div>
@@ -556,7 +594,7 @@ function Portfolio() {
 
         {/* ABOUT */}
         <section id="about" className="grid grid-cols-6 gap-3 sm:gap-4 scroll-mt-24">
-          <Tile className="col-span-6 lg:col-span-4 p-8" label="readme.md">
+          <Tile className="col-span-6 lg:col-span-4 p-8" label="readme.md" reveal delay={0}>
             <h2 className="font-display text-3xl sm:text-4xl font-medium tracking-tight">
               I build across the stack — and I{" "}
               <span className="text-accent">like the messy parts</span>.
@@ -579,7 +617,7 @@ function Portfolio() {
             </div>
           </Tile>
 
-          <Tile className="col-span-6 lg:col-span-2 p-5" label="./me.jpg">
+          <Tile className="col-span-6 lg:col-span-2 p-5" label="./me.jpg" reveal delay={0.08}>
             <img
               src={portraitImage}
               alt="Priyan portrait"
@@ -597,7 +635,7 @@ function Portfolio() {
 
         {/* PROJECTS */}
         <section id="projects" className="grid grid-cols-6 gap-3 sm:gap-4 scroll-mt-24">
-          <div className="col-span-6 flex items-end justify-between">
+          <ScrollReveal className="col-span-6 flex items-end justify-between">
             <h2 className="font-display text-2xl sm:text-3xl font-medium tracking-tight">
               Selected releases
             </h2>
@@ -605,16 +643,18 @@ function Portfolio() {
               {webProjects.length + desktopProjects.length + extensionProjects.length}{" "}
               entries
             </span>
-          </div>
+          </ScrollReveal>
 
-          <div className="col-span-6 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+          <ScrollReveal className="col-span-6 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground" delay={0.05}>
             web apps
-          </div>
+          </ScrollReveal>
 
-          {webProjects.map((p) => (
+          {webProjects.map((p, i) => (
             <Tile
               key={p.id}
               className="col-span-6 lg:col-span-3 overflow-hidden group"
+              reveal
+              delay={i * 0.07}
             >
               <PreviewPanel
                 id={p.id}
@@ -678,7 +718,7 @@ function Portfolio() {
             </Tile>
           ))}
 
-          <Tile className="col-span-6 p-5" label="desktop apps">
+          <Tile className="col-span-6 p-5" label="desktop apps" reveal delay={0.1}>
             <ul className="font-mono text-sm space-y-2">
               {desktopProjects.map((app) => (
                 <li key={app.name} className="flex items-baseline gap-2">
@@ -705,7 +745,7 @@ function Portfolio() {
             </ul>
           </Tile>
 
-          <Tile className="col-span-6 p-5" label="chrome extensions">
+          <Tile className="col-span-6 p-5" label="chrome extensions" reveal delay={0.14}>
             <ul className="font-mono text-sm space-y-2">
               {extensionProjects.map((ext) => (
                 <li key={ext.name} className="flex items-baseline gap-2">
@@ -737,11 +777,13 @@ function Portfolio() {
 
         {/* STACK */}
         <section id="stack" className="grid grid-cols-6 gap-3 sm:gap-4 scroll-mt-24">
-          {Object.entries(stack).map(([group, items]) => (
+          {Object.entries(stack).map(([group, items], i) => (
             <Tile
               key={group}
               className="col-span-6 sm:col-span-3 lg:col-span-2 p-5"
               label={group.toLowerCase()}
+              reveal
+              delay={i * 0.05}
             >
               <ul className="font-mono text-sm space-y-1.5">
                 {items.map((it) => (
@@ -759,8 +801,8 @@ function Portfolio() {
 
         {/* EXPERIENCE */}
         <section id="experience" className="grid grid-cols-6 gap-3 sm:gap-4 scroll-mt-24">
-          {experience.map((e) => (
-            <Tile key={e.role + e.org} className="col-span-6 lg:col-span-3 p-6">
+          {experience.map((e, i) => (
+            <Tile key={e.role + e.org} className="col-span-6 lg:col-span-3 p-6" reveal delay={i * 0.08}>
               <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.2em]">
                 <span className={e.active ? "text-accent" : "text-muted-foreground"}>
                   {e.active ? "● active" : "○ past"}
@@ -777,7 +819,7 @@ function Portfolio() {
             </Tile>
           ))}
 
-          <Tile className="col-span-6 p-6" label="leadership & activities">
+          <Tile className="col-span-6 p-6" label="leadership & activities" reveal delay={0.1}>
             <ul className="grid sm:grid-cols-2 gap-x-6 gap-y-2 font-mono text-sm">
               {activities.map((a) => (
                 <li key={a} className="flex items-baseline gap-2">
@@ -796,17 +838,17 @@ function Portfolio() {
           id="education"
           className="grid grid-cols-6 gap-3 sm:gap-4 scroll-mt-24"
         >
-          <div className="col-span-6 flex items-end justify-between">
+          <ScrollReveal className="col-span-6 flex items-end justify-between">
             <h2 className="font-display text-2xl sm:text-3xl font-medium tracking-tight">
               Education
             </h2>
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
               {education.length} entries
             </span>
-          </div>
+          </ScrollReveal>
 
-          {education.map((e) => (
-            <Tile key={e.org + e.school} className="col-span-6 lg:col-span-3 p-6">
+          {education.map((e, i) => (
+            <Tile key={e.org + e.school} className="col-span-6 lg:col-span-3 p-6" reveal delay={i * 0.08}>
               <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.2em]">
                 <span
                   className={e.active ? "text-accent" : "text-muted-foreground"}
@@ -830,10 +872,12 @@ function Portfolio() {
 
         {/* CERTS */}
         <section id="certs" className="grid grid-cols-6 gap-3 sm:gap-4 scroll-mt-24">
-          {certifications.map((c) => (
+          {certifications.map((c, i) => (
             <Tile
               key={c.code}
               className="col-span-6 sm:col-span-3 lg:col-span-3 p-5 flex items-center justify-between gap-4"
+              reveal
+              delay={i * 0.06}
             >
               <div className="min-w-0">
                 <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">
@@ -852,7 +896,7 @@ function Portfolio() {
 
         {/* CONTACT */}
         <section id="contact" className="grid grid-cols-6 gap-3 sm:gap-4 scroll-mt-24">
-          <Tile className="col-span-6 lg:col-span-4 p-8 sm:p-12" framed>
+          <Tile className="col-span-6 lg:col-span-4 p-8 sm:p-12" framed reveal delay={0}>
             <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground mb-4">
               ~/contact &gt; init.sh
             </div>
@@ -869,7 +913,7 @@ function Portfolio() {
             </a>
           </Tile>
 
-          <Tile className="col-span-6 lg:col-span-2 p-5" label="links">
+          <Tile className="col-span-6 lg:col-span-2 p-5" label="links" reveal delay={0.08}>
             <ul className="font-mono text-sm space-y-3">
               {[
                 ["github", "@Skygazer1111", "https://github.com/Skygazer1111"],
@@ -889,25 +933,40 @@ function Portfolio() {
         </section>
       </main>
 
-      <footer className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-10 mt-8 border-t border-border">
+      <ScrollReveal className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-10 mt-8 border-t border-border" y={16}>
         <div className="flex flex-col sm:flex-row justify-between items-start gap-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
           <p>© 2026 priyan rajarajan</p>
           <p>
             build <span className="text-accent">v2.4-stable</span> · chennai · ist
           </p>
         </div>
-      </footer>
+      </ScrollReveal>
     </div>
   );
 }
 
 function Divider({ label }: { label: string }) {
-  return (
+  const reduceMotion = useReducedMotion();
+
+  const content = (
     <div className="my-12 sm:my-16 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
       <span className="text-accent">┌──</span>
       <span>{label}</span>
       <span className="flex-1 border-t border-dashed border-border" />
       <span className="text-accent">──┐</span>
     </div>
+  );
+
+  if (reduceMotion) return content;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.4 }}
+      transition={{ duration: 0.45, ease: MOTION_EASE }}
+    >
+      {content}
+    </motion.div>
   );
 }
