@@ -288,17 +288,21 @@ function VideoPreview({
   name,
   liveUrl,
   previewVideo,
+  eager = false,
 }: {
   name: string;
   liveUrl: string;
   previewVideo: string;
+  eager?: boolean;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [shouldLoad, setShouldLoad] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(eager);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
+    if (eager) return;
+
     const node = containerRef.current;
     if (!node) return;
 
@@ -306,14 +310,15 @@ function VideoPreview({
       ([entry]) => {
         if (entry?.isIntersecting) setShouldLoad(true);
       },
-      { rootMargin: "120px 0px" },
+      { rootMargin: "0px 0px 1400px 0px" },
     );
 
     observer.observe(node);
     return () => observer.disconnect();
-  }, []);
+  }, [eager]);
 
   useEffect(() => {
+    if (!shouldLoad) return;
     setIsLoaded(false);
     setHasError(false);
   }, [previewVideo, shouldLoad]);
@@ -327,14 +332,16 @@ function VideoPreview({
         <video
           key={previewVideo}
           src={previewVideo}
-          className="absolute inset-0 h-full w-full object-cover object-center"
+          className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-300 ${
+            isLoaded ? "opacity-100" : "opacity-0"
+          }`}
           autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           aria-label={`${name} landing page preview`}
-          onCanPlay={() => setIsLoaded(true)}
+          onLoadedData={() => setIsLoaded(true)}
           onError={() => setHasError(true)}
         />
       )}
@@ -375,11 +382,13 @@ function PreviewPanel({
   name,
   liveUrl,
   previewVideo,
+  eager = false,
 }: {
   id: string;
   name: string;
   liveUrl?: string;
   previewVideo?: string;
+  eager?: boolean;
 }) {
   if (liveUrl && previewVideo) {
     return (
@@ -387,6 +396,7 @@ function PreviewPanel({
         name={name}
         liveUrl={liveUrl}
         previewVideo={previewVideo}
+        eager={eager}
       />
     );
   }
@@ -440,7 +450,36 @@ function PreviewPanel({
   );
 }
 
+function usePrefetchPreviews() {
+  useEffect(() => {
+    const urls = webProjects
+      .map((p) => p.previewVideo)
+      .filter((url): url is string => Boolean(url));
+
+    const tags = urls.flatMap((url, i) => {
+      const prefetch = document.createElement("link");
+      prefetch.rel = "prefetch";
+      prefetch.href = url;
+      prefetch.as = "fetch";
+      document.head.appendChild(prefetch);
+
+      if (i > 1) return [prefetch];
+
+      const preload = document.createElement("link");
+      preload.rel = "preload";
+      preload.href = url;
+      preload.as = "video";
+      document.head.appendChild(preload);
+      return [prefetch, preload];
+    });
+
+    return () => tags.forEach((tag) => tag.remove());
+  }, []);
+}
+
 function Portfolio() {
+  usePrefetchPreviews();
+
   return (
     <div className="relative min-h-screen text-foreground selection:bg-accent selection:text-accent-foreground">
       <ParticleBackground />
@@ -669,6 +708,7 @@ function Portfolio() {
                 name={p.title}
                 liveUrl={p.links.find((l) => l.label === "live")?.href}
                 previewVideo={p.previewVideo}
+                eager={i < 2}
               />
               <div className="p-6">
                 <div className="flex items-center justify-between mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
