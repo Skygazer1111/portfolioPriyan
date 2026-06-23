@@ -1,6 +1,10 @@
 import { motion, useReducedMotion, type HTMLMotionProps } from "framer-motion";
-
-const EASE = [0.22, 1, 0.36, 1] as const;
+import {
+  SCROLL_VIEWPORT,
+  scrollRevealHidden,
+  scrollRevealTransition,
+  scrollRevealVisible,
+} from "../lib/motion";
 
 type ScrollRevealProps = HTMLMotionProps<"div"> & {
   delay?: number;
@@ -11,7 +15,7 @@ export function ScrollReveal({
   children,
   className,
   delay = 0,
-  y = 28,
+  y,
   ...props
 }: ScrollRevealProps) {
   const reduceMotion = useReducedMotion();
@@ -23,10 +27,10 @@ export function ScrollReveal({
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.12, margin: "0px 0px -48px 0px" }}
-      transition={{ duration: 0.55, delay, ease: EASE }}
+      initial={y !== undefined ? { ...scrollRevealHidden, y } : scrollRevealHidden}
+      whileInView={scrollRevealVisible}
+      viewport={SCROLL_VIEWPORT}
+      transition={scrollRevealTransition(delay)}
       {...props}
     >
       {children}

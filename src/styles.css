@@ -138,6 +138,8 @@
   z-index: 1;
   pointer-events: none;
   overflow: hidden;
+  contain: strict;
+  transform: translateZ(0);
 }
 
 .particle-bg canvas {

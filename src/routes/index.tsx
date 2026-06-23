@@ -4,10 +4,16 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import portraitImage from "../../priyan.png";
 import { ParticleBackground } from "../components/ParticleBackground";
+import { ScrollProgress } from "../components/ScrollProgress";
 import { ScrollReveal } from "../components/ScrollReveal";
 import { getGitHubContributions } from "../lib/api/github.functions";
-
-const MOTION_EASE = [0.22, 1, 0.36, 1] as const;
+import {
+  MOTION_EASE,
+  SCROLL_VIEWPORT,
+  scrollRevealHidden,
+  scrollRevealTransition,
+  scrollRevealVisible,
+} from "../lib/motion";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -228,10 +234,10 @@ function Tile({
   return (
     <motion.div
       className={classes}
-      initial={{ opacity: 0, y: 32 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.12, margin: "0px 0px -48px 0px" }}
-      transition={{ duration: 0.55, delay, ease: MOTION_EASE }}
+      initial={scrollRevealHidden}
+      whileInView={scrollRevealVisible}
+      viewport={SCROLL_VIEWPORT}
+      transition={scrollRevealTransition(delay)}
     >
       {content}
     </motion.div>
@@ -466,6 +472,8 @@ function Portfolio() {
         </div>
       </nav>
 
+      <ScrollProgress />
+
       {/* Marquee */}
       <div className="fixed top-14 left-0 right-0 z-40 border-b border-border bg-bg/85 backdrop-blur-md overflow-hidden">
         <div className="flex whitespace-nowrap animate-marquee py-1 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
@@ -654,7 +662,7 @@ function Portfolio() {
               key={p.id}
               className="col-span-6 lg:col-span-3 overflow-hidden group"
               reveal
-              delay={i * 0.07}
+              delay={i * 0.1}
             >
               <PreviewPanel
                 id={p.id}
@@ -948,25 +956,29 @@ function Portfolio() {
 function Divider({ label }: { label: string }) {
   const reduceMotion = useReducedMotion();
 
-  const content = (
-    <div className="my-12 sm:my-16 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+  if (reduceMotion) {
+    return (
+      <div className="my-12 sm:my-16 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+        <span className="text-accent">┌──</span>
+        <span>{label}</span>
+        <span className="flex-1 border-t border-dashed border-border" />
+        <span className="text-accent">──┐</span>
+      </div>
+    );
+  }
+
+  return (
+    <motion.div
+      className="my-12 sm:my-16 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground"
+      initial={{ opacity: 0, x: -16 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, amount: 0.5 }}
+      transition={{ duration: 0.45, ease: MOTION_EASE }}
+    >
       <span className="text-accent">┌──</span>
       <span>{label}</span>
       <span className="flex-1 border-t border-dashed border-border" />
       <span className="text-accent">──┐</span>
-    </div>
-  );
-
-  if (reduceMotion) return content;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.4 }}
-      transition={{ duration: 0.45, ease: MOTION_EASE }}
-    >
-      {content}
     </motion.div>
   );
 }
