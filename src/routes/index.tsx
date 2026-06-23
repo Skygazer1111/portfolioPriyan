@@ -7,6 +7,7 @@ import { ParticleBackground } from "../components/ParticleBackground";
 import { ScrollProgress } from "../components/ScrollProgress";
 import { ScrollReveal } from "../components/ScrollReveal";
 import { getGitHubContributions } from "../lib/api/github.functions";
+import { ogImageMeta } from "../lib/site";
 import {
   MOTION_EASE,
   SCROLL_VIEWPORT,
@@ -30,6 +31,7 @@ export const Route = createFileRoute("/")({
         content:
           "Priyan Rajarajan — CS student. Full-stack, backend, data, and systems work.",
       },
+      ...ogImageMeta,
     ],
   }),
   component: Portfolio,

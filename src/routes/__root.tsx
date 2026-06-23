@@ -10,6 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { ogImageMeta } from "../lib/site";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -83,7 +84,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:title", content: "priyan.r — CS portfolio" },
       { property: "og:description", content: "Priyan Rajarajan — CS student. Full-stack, backend, data, and systems work." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
+      ...ogImageMeta,
     ],
     links: [
       { rel: "stylesheet", href: appCss },

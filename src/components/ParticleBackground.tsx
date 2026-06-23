@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Particle = {
   x: number;
@@ -13,12 +13,24 @@ const ACCENT = { r: 255, g: 122, b: 26 };
 const LINK_DISTANCE = 140;
 const LINK_DISTANCE_SQ = LINK_DISTANCE * LINK_DISTANCE;
 const CELL_SIZE = LINK_DISTANCE;
+const MOBILE_BREAKPOINT = 768;
 
 export function ParticleBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [enabled, setEnabled] = useState(false);
 
   useEffect(() => {
+    const media = window.matchMedia(`(min-width: ${MOBILE_BREAKPOINT}px)`);
+    const update = () => setEnabled(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (!enabled) return;
+
     const canvas = canvasRef.current;
     const container = containerRef.current;
     if (!canvas || !container) return;
@@ -166,7 +178,9 @@ export function ParticleBackground() {
       visibilityObserver.disconnect();
       document.removeEventListener("visibilitychange", onVisibilityChange);
     };
-  }, []);
+  }, [enabled]);
+
+  if (!enabled) return null;
 
   return (
     <div ref={containerRef} className="particle-bg" aria-hidden="true">
