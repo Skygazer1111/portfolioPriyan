@@ -145,6 +145,12 @@ const extensionProjects = [
       "DevTools panel for LocalStorage, SessionStorage, cookies, and IndexedDB — fuzzy search, in-place editing, JWT decode, and snapshot compare (Chrome MV3)",
     href: "https://github.com/Skygazer1111/StorageLens",
   },
+  {
+    name: "Portals",
+    detail:
+      "one-click environment switcher (Local, Staging, Production, custom) — preserves path, query, and hash; profiles, keyboard shortcuts, side-by-side windows (Chrome MV3)",
+    href: "https://github.com/Cosmos-0118/Portals",
+  },
 ];
 
 const experience = [
