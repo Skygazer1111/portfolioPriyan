@@ -149,7 +149,13 @@ const extensionProjects = [
     name: "Portals",
     detail:
       "one-click environment switcher (Local, Staging, Production, custom) — preserves path, query, and hash; profiles, keyboard shortcuts, side-by-side windows (Chrome MV3)",
-    href: "https://github.com/Cosmos-0118/Portals",
+    href: "https://chromewebstore.google.com/detail/Portals/fobmbnhcechkgempjgoalgohecmpbben",
+  },
+  {
+    name: "anti-ragging-CollegePicker",
+    detail:
+      "A retro-styled Chrome extension with a smart form auto-fill engine to easily find colleges and fill out the Anti-Ragging Portal (Chrome MV3)",
+    href: "https://chromewebstore.google.com/detail/anti-ragging-college-pick/aadhjapjbodefikohkdgeejlfgnjnfeo",
   },
 ];
 
