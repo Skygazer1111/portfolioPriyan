@@ -177,12 +177,12 @@ const extensionProjects = [
 
 const experience = [
   {
-    role: "Data Science Intern (Power BI)",
+    role: "Data Analyst Intern (Power BI)",
     org: "Infoplus MDM Pvt. Ltd.",
-    range: "Jun 2026 → Present",
+    range: "Jun 2026 → Jul 2026",
     detail:
-      "Working with large datasets for analysis, visualization, and insight generation in Microsoft Power BI. Building interactive dashboards and reports, applying Power Query + DAX transformations, supporting data-driven decisions with industry teams.",
-    active: true,
+      "Worked with large datasets for analysis, visualization, and insight generation in Microsoft Power BI. Built interactive dashboards and reports, applied Power Query + DAX transformations, and supported data-driven decisions with industry teams.",
+    active: false,
   },
 ];
 
