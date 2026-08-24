@@ -65,16 +65,14 @@ const stack = {
 const webProjects = [
   {
     id: "003",
-    title: "UniSlot",
-    subtitle: "University Evening Course Scheduling Engine",
+    title: "CampusClean",
+    subtitle: "SRMIST Campus Issue Reporting Platform",
     blurb:
-      "A scheduling engine that automatically generates conflict-free timetables for 2,600 students across 306+ courses — work that previously took days of manual planning. Under the hood, UniSlot treats university timetabling as an NP-hard optimization problem: weighted conflict graphs, ILP constraints, metaheuristics (SA, Tabu Search, GA), and Timefold incremental scoring. Pre-clusters students to resolve the sectioning paradox before generating the master timetable. Built on ITC 2019-winning architecture patterns.",
-    tags: ["Python", "Timefold", "OR-Tools", "ILP", "Graph Theory", "Next.js"],
-    links: [
-      { label: "live", href: "https://uni-slot-three.vercel.app" },
-    ],
-    previewVideo: "/previews/unislot.mp4",
-    status: "stable",
+      "Student-first campus issue reporting for SRMIST. Students submit waterlogging, elevator, escalator, washroom, and other campus problems with photos, fixed campus locations, and floor details; coordinators verify, progress, resolve, reject, export, and download report PDFs from a focused queue. Role-aware Auth.js flows, OTP setup, hashed passwords, Prisma + PostgreSQL, reward points for useful reports, status timelines, Recharts analytics, and photo uploads via Cloudinary or local fallback.",
+    tags: ["Next.js", "React", "Auth.js", "Prisma", "PostgreSQL", "Tailwind CSS"],
+    links: [{ label: "live", href: "https://campusclean-beta.vercel.app/" }],
+    previewVideo: "/previews/CampusClean.mp4",
+    status: "beta",
   },
   {
     id: "004",
@@ -124,6 +122,12 @@ const desktopProjects = [
       "Windows maintenance platform — WPF (.NET 8) + C# services for cleanup, diagnostics, optimization, PowerShell 7 automation, registry tuning, and system monitoring.",
     href: "https://github.com/Skygazer1111/TidyWindow",
   },
+  {
+    name: "UniSlot",
+    detail:
+      "terminal evening-course scheduler for universities — Excel intake, conflict graph preprocessing, Google OR-Tools CP-SAT optimization, reproducible runs, and Excel/JSON exports.",
+    href: "https://github.com/Cosmos-0118/UniSlot",
+  },
 ];
 
 const extensionProjects = [
@@ -156,6 +160,18 @@ const extensionProjects = [
     detail:
       "A retro-styled Chrome extension with a smart form auto-fill engine to easily find colleges and fill out the Anti-Ragging Portal (Chrome MV3)",
     href: "https://chromewebstore.google.com/detail/anti-ragging-college-pick/aadhjapjbodefikohkdgeejlfgnjnfeo",
+  },
+  {
+    name: "NptelAssist",
+    detail:
+      "auto-marks NPTEL assignment answers, copies questions for AI review, and auto-completes weekly course items on NPTEL and SWAYAM (Chrome MV3)",
+    href: "https://chromewebstore.google.com/detail/nptel-assist/hobihilmeddphpkobfioifnejkmhpkkl",
+  },
+  {
+    name: "PromptGod",
+    detail:
+      "AI prompt sanitizer that masks API keys, passwords, and secrets before they reach AI chatbots (Chrome MV3)",
+    href: "https://chromewebstore.google.com/detail/promptgod/eghmlkghpkdhcjmemodomhmgjeinicph",
   },
 ];
 
