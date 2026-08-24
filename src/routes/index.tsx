@@ -333,6 +333,7 @@ function VideoPreview({
   eager?: boolean;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [shouldLoad, setShouldLoad] = useState(eager);
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
@@ -360,6 +361,18 @@ function VideoPreview({
     setHasError(false);
   }, [previewVideo, shouldLoad]);
 
+  useEffect(() => {
+    if (!shouldLoad) return;
+
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.load();
+    void video.play().catch(() => {
+      // Muted autoplay should work, but browsers can still delay playback.
+    });
+  }, [previewVideo, shouldLoad]);
+
   return (
     <div
       ref={containerRef}
@@ -367,6 +380,7 @@ function VideoPreview({
     >
       {shouldLoad && !hasError && (
         <video
+          ref={videoRef}
           key={previewVideo}
           src={previewVideo}
           className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-300 ${
@@ -493,21 +507,15 @@ function usePrefetchPreviews() {
       .map((p) => p.previewVideo)
       .filter((url): url is string => Boolean(url));
 
-    const tags = urls.flatMap((url, i) => {
-      const prefetch = document.createElement("link");
-      prefetch.rel = "prefetch";
-      prefetch.href = url;
-      prefetch.as = "fetch";
-      document.head.appendChild(prefetch);
-
-      if (i > 1) return [prefetch];
-
+    const tags = urls.map((url, i) => {
       const preload = document.createElement("link");
       preload.rel = "preload";
       preload.href = url;
       preload.as = "video";
+      preload.type = "video/mp4";
+      preload.setAttribute("fetchpriority", i < 2 ? "high" : "low");
       document.head.appendChild(preload);
-      return [prefetch, preload];
+      return preload;
     });
 
     return () => tags.forEach((tag) => tag.remove());
@@ -745,7 +753,7 @@ function Portfolio() {
                 name={p.title}
                 liveUrl={p.links.find((l) => l.label === "live")?.href}
                 previewVideo={p.previewVideo}
-                eager={i < 2}
+                eager
               />
               <div className="p-6">
                 <div className="flex items-center justify-between mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
