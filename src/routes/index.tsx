@@ -1012,7 +1012,7 @@ function Portfolio() {
                 ["github", "@Skygazer1111", "https://github.com/Skygazer1111"],
                 ["linkedin", "/priyan-rajarajan", "https://linkedin.com/in/priyan-rajarajan-b8128b2a2"],
                 ["leetcode", "@Skygazer1111", "https://leetcode.com/u/Skygazer1111/"],
-                ["resume", "view resume", "https://drive.google.com/file/d/1RrPsUcDj7xGSpxlYU0G4W8mkvIVJRZql/view?usp=sharing"],
+                ["resume", "view resume", "https://drive.google.com/file/d/1B7m2Hx6qKmt3OcH0cVkRhAdu24iZQHq5/view?usp=sharing"],
               ].map(([k, v, href]) => (
                 <li key={k} className="flex items-baseline justify-between gap-2 border-b border-border pb-2 last:border-0">
                   <span className="text-muted-foreground">{k}</span>
