@@ -51,6 +51,6 @@ async function fetchContributionsFromApi() {
   return getContributionsWindow(data.contributions);
 }
 
-export const getGitHubContributions = createServerFn({ method: "GET" }).handler(
-  async () => fetchContributionsFromApi(),
+export const getGitHubContributions = createServerFn({ method: "GET" }).handler(async () =>
+  fetchContributionsFromApi(),
 );

@@ -11,7 +11,7 @@ Personal site for [Priyan Rajarajan](https://github.com/Skygazer1111): projects,
 
 ## Setup
 
-Node.js 18+ and npm.
+Node.js 24 LTS and npm.
 
 ```bash
 npm install
@@ -19,6 +19,11 @@ npm run dev
 ```
 
 Open the URL Vite prints (usually `http://localhost:5173`).
+
+TypeScript stays on 6.x to match `typescript-eslint`'s supported range. Bun updates
+respect the 24-hour minimum release age configured in `bunfig.toml`. The Nitro
+override matches the direct dependency so npm accepts its newer beta despite
+Lovable's peer range naming an older beta.
 
 | Script | Purpose |
 | --- | --- |

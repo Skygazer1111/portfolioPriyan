@@ -22,14 +22,12 @@ export const Route = createFileRoute("/")({
       { title: "priyan.r // cs portfolio [v2.4-stable]" },
       {
         name: "description",
-        content:
-          "Priyan Rajarajan — CS student. Full-stack, backend, data, and systems work.",
+        content: "Priyan Rajarajan — CS student. Full-stack, backend, data, and systems work.",
       },
       { property: "og:title", content: "priyan.r — CS portfolio" },
       {
         property: "og:description",
-        content:
-          "Priyan Rajarajan — CS student. Full-stack, backend, data, and systems work.",
+        content: "Priyan Rajarajan — CS student. Full-stack, backend, data, and systems work.",
       },
       ...ogImageMeta,
     ],
@@ -133,14 +131,12 @@ const desktopProjects = [
 const extensionProjects = [
   {
     name: "srmsgpa",
-    detail:
-      "SRM SGPA calculator on the portal Provisional Results page (Chrome MV3)",
+    detail: "SRM SGPA calculator on the portal Provisional Results page (Chrome MV3)",
     href: "https://chromewebstore.google.com/detail/srm-sgpa-calculator/nbaajhmclhddihjcnkihjbolbkdcfijj",
   },
   {
     name: "AegisStream",
-    detail:
-      "adaptive HLS/DASH buffering shield with prefetch + IndexedDB cache (Chrome MV3)",
+    detail: "adaptive HLS/DASH buffering shield with prefetch + IndexedDB cache (Chrome MV3)",
     href: "https://github.com/Skygazer1111/AegisStream",
   },
   {
@@ -191,16 +187,14 @@ const education = [
     school: "B.Tech in Computer Science and Engineering",
     org: "SRM Institute of Science and Technology",
     range: "2024 → 2028",
-    detail:
-      "CGPA: 9.4 · Honours in Financial Technologies · Chennai, India",
+    detail: "CGPA: 9.4 · Honours in Financial Technologies · Chennai, India",
     active: true,
   },
   {
     school: "Higher Secondary Certificate (Class XII)",
     org: "Chettinad Vidyashram",
     range: "— → 2024",
-    detail:
-      "88.66% · Physics, Chemistry, Mathematics, Biology · Chennai, India",
+    detail: "88.66% · Physics, Chemistry, Mathematics, Biology · Chennai, India",
     active: false,
   },
 ];
@@ -297,14 +291,11 @@ function GitLogTile() {
   });
 
   const recent =
-    data?.recent ??
-    Array.from({ length: 60 }, () => ({ date: "", count: 0, level: 0 }));
+    data?.recent ?? Array.from({ length: 60 }, () => ({ date: "", count: 0, level: 0 }));
 
   return (
     <Tile className="col-span-3 lg:col-span-2 p-5" label="git_log" reveal="mount" delay={0.12}>
-      <div className="font-mono text-[11px] text-muted-foreground">
-        commits / 365d
-      </div>
+      <div className="font-mono text-[11px] text-muted-foreground">commits / 365d</div>
       <div className="mt-1 font-display text-4xl font-semibold tracking-tight">
         {isLoading ? "···" : isError || !data ? "###" : data.total}
       </div>
@@ -335,8 +326,13 @@ function VideoPreview({
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [shouldLoad, setShouldLoad] = useState(eager);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [hasError, setHasError] = useState(false);
+  const [previewState, setPreviewState] = useState({
+    source: previewVideo,
+    isLoaded: false,
+    hasError: false,
+  });
+  const isLoaded = previewState.source === previewVideo && previewState.isLoaded;
+  const hasError = previewState.source === previewVideo && previewState.hasError;
 
   useEffect(() => {
     if (eager) return;
@@ -354,12 +350,6 @@ function VideoPreview({
     observer.observe(node);
     return () => observer.disconnect();
   }, [eager]);
-
-  useEffect(() => {
-    if (!shouldLoad) return;
-    setIsLoaded(false);
-    setHasError(false);
-  }, [previewVideo, shouldLoad]);
 
   useEffect(() => {
     if (!shouldLoad) return;
@@ -392,8 +382,10 @@ function VideoPreview({
           playsInline
           preload="auto"
           aria-label={`${name} landing page preview`}
-          onLoadedData={() => setIsLoaded(true)}
-          onError={() => setHasError(true)}
+          onLoadedData={() =>
+            setPreviewState({ source: previewVideo, isLoaded: true, hasError: false })
+          }
+          onError={() => setPreviewState({ source: previewVideo, isLoaded: false, hasError: true })}
         />
       )}
       <div className="absolute inset-0 z-[5]" aria-hidden="true" />
@@ -442,14 +434,7 @@ function PreviewPanel({
   eager?: boolean;
 }) {
   if (liveUrl && previewVideo) {
-    return (
-      <VideoPreview
-        name={name}
-        liveUrl={liveUrl}
-        previewVideo={previewVideo}
-        eager={eager}
-      />
-    );
+    return <VideoPreview name={name} liveUrl={liveUrl} previewVideo={previewVideo} eager={eager} />;
   }
 
   if (liveUrl) {
@@ -494,9 +479,7 @@ function PreviewPanel({
         <span className="size-2 rounded-full bg-stone-700" />
         <span className="size-2 rounded-full bg-accent" />
       </div>
-      <div className="absolute bottom-2 right-3 font-mono text-[10px] text-stone-600">
-        {name}
-      </div>
+      <div className="absolute bottom-2 right-3 font-mono text-[10px] text-stone-600">{name}</div>
     </div>
   );
 }
@@ -535,9 +518,7 @@ function Portfolio() {
           <div className="flex items-center gap-2 font-mono text-xs">
             <span className="size-1.5 rounded-full bg-accent animate-blink" />
             <span className="text-foreground">priyan.r</span>
-            <span className="text-muted-foreground hidden sm:inline">
-              / portfolio.v2.4
-            </span>
+            <span className="text-muted-foreground hidden sm:inline">/ portfolio.v2.4</span>
             <span className="text-accent hidden sm:inline">[v2.4-stable]</span>
           </div>
           <div className="hidden md:flex gap-5 font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
@@ -595,9 +576,8 @@ function Portfolio() {
               <span className="text-accent">exits.</span>
             </h1>
             <p className="mt-8 max-w-xl text-muted-foreground leading-relaxed">
-              Priyan Rajarajan — CS undergrad at SRMIST. I build full-stack tools,
-              backend systems, and the occasional Windows utility. Comfortable on
-              either side of the API.
+              Priyan Rajarajan — CS undergrad at SRMIST. I build full-stack tools, backend systems,
+              and the occasional Windows utility. Comfortable on either side of the API.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a
@@ -662,9 +642,7 @@ function Portfolio() {
 
           {/* currently */}
           <Tile className="col-span-3 lg:col-span-2 p-5" label="now" reveal="mount" delay={0.2}>
-            <div className="font-mono text-[11px] text-muted-foreground mb-2">
-              currently
-            </div>
+            <div className="font-mono text-[11px] text-muted-foreground mb-2">currently</div>
             <ul className="space-y-2 text-sm">
               <li className="flex items-baseline gap-2">
                 <span className="text-accent font-mono text-xs">▸</span>
@@ -672,7 +650,8 @@ function Portfolio() {
               </li>
               <li className="flex items-baseline gap-2">
                 <span className="text-accent font-mono text-xs">▸</span>
-                researching <span className="text-muted-foreground">— ML for air quality (UROP)</span>
+                researching{" "}
+                <span className="text-muted-foreground">— ML for air quality (UROP)</span>
               </li>
               <li className="flex items-baseline gap-2">
                 <span className="text-accent font-mono text-xs">▸</span>
@@ -693,18 +672,18 @@ function Portfolio() {
             </h2>
             <div className="mt-6 space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                CS undergrad at SRMIST. I spend most of my time shipping web
-                apps, working with databases, building browser extensions, and
-                occasionally tinkering with Windows tools when the mood hits.
+                CS undergrad at SRMIST. I spend most of my time shipping web apps, working with
+                databases, building browser extensions, and occasionally tinkering with Windows
+                tools when the mood hits.
               </p>
               <p>
-                Lately I've been into scheduling problems, making sure things
-                don't fall apart when they get busy, and figuring out where AI
-                actually helps — and where it just gets in the way.
+                Lately I've been into scheduling problems, making sure things don't fall apart when
+                they get busy, and figuring out where AI actually helps — and where it just gets in
+                the way.
               </p>
               <p>
-                Off the keyboard: hackathons, research on air quality, and
-                helping run IEEE CS at SRMIST.
+                Off the keyboard: hackathons, research on air quality, and helping run IEEE CS at
+                SRMIST.
               </p>
             </div>
           </Tile>
@@ -716,9 +695,18 @@ function Portfolio() {
               className="aspect-square w-full object-cover border border-border rounded-md"
             />
             <div className="mt-4 font-mono text-[11px] text-muted-foreground space-y-1">
-              <div className="flex justify-between"><span>name</span><span className="text-foreground">priyan r.</span></div>
-              <div className="flex justify-between"><span>based</span><span className="text-foreground">chennai, in</span></div>
-              <div className="flex justify-between"><span>role</span><span className="text-foreground">cs student</span></div>
+              <div className="flex justify-between">
+                <span>name</span>
+                <span className="text-foreground">priyan r.</span>
+              </div>
+              <div className="flex justify-between">
+                <span>based</span>
+                <span className="text-foreground">chennai, in</span>
+              </div>
+              <div className="flex justify-between">
+                <span>role</span>
+                <span className="text-foreground">cs student</span>
+              </div>
             </div>
           </Tile>
         </section>
@@ -732,12 +720,14 @@ function Portfolio() {
               Selected releases
             </h2>
             <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-              {webProjects.length + desktopProjects.length + extensionProjects.length}{" "}
-              entries
+              {webProjects.length + desktopProjects.length + extensionProjects.length} entries
             </span>
           </ScrollReveal>
 
-          <ScrollReveal className="col-span-6 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground" delay={0.05}>
+          <ScrollReveal
+            className="col-span-6 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground"
+            delay={0.05}
+          >
             web apps
           </ScrollReveal>
 
@@ -764,8 +754,8 @@ function Portfolio() {
                         p.status === "stable"
                           ? "bg-accent"
                           : p.status === "beta"
-                          ? "bg-accent/50"
-                          : "bg-stone-600"
+                            ? "bg-accent/50"
+                            : "bg-stone-600"
                       }`}
                     />
                     {p.status}
@@ -794,9 +784,7 @@ function Portfolio() {
                     ))}
                   </div>
                 </div>
-                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
-                  {p.blurb}
-                </p>
+                <p className="mt-3 text-sm text-muted-foreground leading-relaxed">{p.blurb}</p>
                 <div className="mt-5 flex flex-wrap gap-1.5">
                   {p.tags.map((t) => (
                     <span
@@ -895,20 +883,21 @@ function Portfolio() {
         {/* EXPERIENCE */}
         <section id="experience" className="grid grid-cols-6 gap-3 sm:gap-4 scroll-mt-24">
           {experience.map((e, i) => (
-            <Tile key={e.role + e.org} className="col-span-6 lg:col-span-3 p-6" reveal delay={i * 0.08}>
+            <Tile
+              key={e.role + e.org}
+              className="col-span-6 lg:col-span-3 p-6"
+              reveal
+              delay={i * 0.08}
+            >
               <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.2em]">
                 <span className={e.active ? "text-accent" : "text-muted-foreground"}>
                   {e.active ? "● active" : "○ past"}
                 </span>
                 <span className="text-muted-foreground">{e.range}</span>
               </div>
-              <h3 className="mt-3 font-display text-xl font-medium tracking-tight">
-                {e.role}
-              </h3>
+              <h3 className="mt-3 font-display text-xl font-medium tracking-tight">{e.role}</h3>
               <p className="text-sm text-muted-foreground">{e.org}</p>
-              <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-                {e.detail}
-              </p>
+              <p className="mt-4 text-sm text-muted-foreground leading-relaxed">{e.detail}</p>
             </Tile>
           ))}
 
@@ -926,11 +915,8 @@ function Portfolio() {
 
         <Divider label="05_education" />
 
-         {/* EDUCATION */}
-        <section
-          id="education"
-          className="grid grid-cols-6 gap-3 sm:gap-4 scroll-mt-24"
-        >
+        {/* EDUCATION */}
+        <section id="education" className="grid grid-cols-6 gap-3 sm:gap-4 scroll-mt-24">
           <ScrollReveal className="col-span-6 flex items-end justify-between">
             <h2 className="font-display text-2xl sm:text-3xl font-medium tracking-tight">
               Education
@@ -941,22 +927,21 @@ function Portfolio() {
           </ScrollReveal>
 
           {education.map((e, i) => (
-            <Tile key={e.org + e.school} className="col-span-6 lg:col-span-3 p-6" reveal delay={i * 0.08}>
+            <Tile
+              key={e.org + e.school}
+              className="col-span-6 lg:col-span-3 p-6"
+              reveal
+              delay={i * 0.08}
+            >
               <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.2em]">
-                <span
-                  className={e.active ? "text-accent" : "text-muted-foreground"}
-                >
+                <span className={e.active ? "text-accent" : "text-muted-foreground"}>
                   {e.active ? "● active" : "○ past"}
                 </span>
                 <span className="text-muted-foreground">{e.range}</span>
               </div>
-              <h3 className="mt-3 font-display text-xl font-medium tracking-tight">
-                {e.school}
-              </h3>
+              <h3 className="mt-3 font-display text-xl font-medium tracking-tight">{e.school}</h3>
               <p className="text-sm text-muted-foreground">{e.org}</p>
-              <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-                {e.detail}
-              </p>
+              <p className="mt-4 text-sm text-muted-foreground leading-relaxed">{e.detail}</p>
             </Tile>
           ))}
         </section>
@@ -978,9 +963,7 @@ function Portfolio() {
                 </div>
                 <div className="mt-1 text-foreground truncate">{c.title}</div>
               </div>
-              <div className="font-mono text-xs text-muted-foreground shrink-0">
-                {c.year}
-              </div>
+              <div className="font-mono text-xs text-muted-foreground shrink-0">{c.year}</div>
             </Tile>
           ))}
         </section>
@@ -1010,13 +993,29 @@ function Portfolio() {
             <ul className="font-mono text-sm space-y-3">
               {[
                 ["github", "@Skygazer1111", "https://github.com/Skygazer1111"],
-                ["linkedin", "/priyan-rajarajan", "https://linkedin.com/in/priyan-rajarajan-b8128b2a2"],
+                [
+                  "linkedin",
+                  "/priyan-rajarajan",
+                  "https://linkedin.com/in/priyan-rajarajan-b8128b2a2",
+                ],
                 ["leetcode", "@Skygazer1111", "https://leetcode.com/u/Skygazer1111/"],
-                ["resume", "view resume", "https://drive.google.com/file/d/1B7m2Hx6qKmt3OcH0cVkRhAdu24iZQHq5/view?usp=sharing"],
+                [
+                  "resume",
+                  "view resume",
+                  "https://drive.google.com/file/d/1B7m2Hx6qKmt3OcH0cVkRhAdu24iZQHq5/view?usp=sharing",
+                ],
               ].map(([k, v, href]) => (
-                <li key={k} className="flex items-baseline justify-between gap-2 border-b border-border pb-2 last:border-0">
+                <li
+                  key={k}
+                  className="flex items-baseline justify-between gap-2 border-b border-border pb-2 last:border-0"
+                >
                   <span className="text-muted-foreground">{k}</span>
-                  <a href={href} target="_blank" rel="noopener noreferrer" className="text-foreground hover:text-accent transition-colors truncate">
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-foreground hover:text-accent transition-colors truncate"
+                  >
                     {v} ↗
                   </a>
                 </li>
@@ -1026,7 +1025,10 @@ function Portfolio() {
         </section>
       </main>
 
-      <ScrollReveal className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-10 mt-8 border-t border-border" y={16}>
+      <ScrollReveal
+        className="relative max-w-7xl mx-auto px-4 sm:px-6 pt-8 pb-10 mt-8 border-t border-border"
+        y={16}
+      >
         <div className="flex flex-col sm:flex-row justify-between items-start gap-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
           <p>© 2026 priyan rajarajan</p>
           <p>

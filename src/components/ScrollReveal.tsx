@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { motion, useReducedMotion, type HTMLMotionProps } from "framer-motion";
 import {
   SCROLL_VIEWPORT,
@@ -6,18 +7,13 @@ import {
   scrollRevealVisible,
 } from "../lib/motion";
 
-type ScrollRevealProps = HTMLMotionProps<"div"> & {
+type ScrollRevealProps = Omit<HTMLMotionProps<"div">, "children"> & {
+  children?: ReactNode;
   delay?: number;
   y?: number;
 };
 
-export function ScrollReveal({
-  children,
-  className,
-  delay = 0,
-  y,
-  ...props
-}: ScrollRevealProps) {
+export function ScrollReveal({ children, className, delay = 0, y, ...props }: ScrollRevealProps) {
   const reduceMotion = useReducedMotion();
 
   if (reduceMotion) {
